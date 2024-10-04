@@ -1,5 +1,6 @@
 package co.edu.uniquindio.uniEventos.modelo.documentos;
 
+import co.edu.uniquindio.uniEventos.modelo.enums.EstadoOrden;
 import co.edu.uniquindio.uniEventos.modelo.vo.DetalleOrden;
 import co.edu.uniquindio.uniEventos.modelo.vo.Pago;
 import lombok.*;
@@ -27,6 +28,7 @@ public class Orden {
     private ObjectId idCupon;
     private List<DetalleOrden> items;
     private float total;
+    private EstadoOrden estado;
     private Pago pago;
 
 }
