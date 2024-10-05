@@ -7,8 +7,7 @@ import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenNoEncontradaException
 import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenYaCanceladaException;
 
 public interface OrdenServicio {
-    //editar no va aquí
-    //eliminar tampoco
+   
     String crearOrden(CrearOrdenDTO crearOrdenDTO);
 
     ObtenerOrdenDTO obtenerOrdenPorId(String idOrden);
