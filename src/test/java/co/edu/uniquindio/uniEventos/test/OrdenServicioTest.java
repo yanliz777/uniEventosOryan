@@ -183,7 +183,7 @@ public class OrdenServicioTest {
     devuelta contenga los datos correctos.
      */
     @Test
-    public void obtenerOrdenPorIdTest() {
+    public void obtenerOrdenPorIdTest() throws OrdenNoEncontradaException {
         // Simular una orden guardada en la base de datos
         Orden orden = new Orden();
         orden.setId("orden123");
@@ -210,7 +210,7 @@ public class OrdenServicioTest {
 
         ordenRepo.save(orden);
 
-        // Llamar al método obtenerOrdenPorId
+        // Llamar al metodo obtenerOrdenPorId
         ObtenerOrdenDTO ordenDTO = ordenServicio.obtenerOrdenPorId("orden123");
 
         // Verificar los datos de la orden

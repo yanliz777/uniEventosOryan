@@ -1,6 +1,7 @@
 package co.edu.uniquindio.uniEventos.servicios.implementacion;
 
 import co.edu.uniquindio.uniEventos.dto.*;
+import co.edu.uniquindio.uniEventos.excepciones.CuponNoEncontradoException;
 import co.edu.uniquindio.uniEventos.servicios.implementacion.EventoServicioImpl;
 import co.edu.uniquindio.uniEventos.excepciones.EventoNoEncontradoException;
 import co.edu.uniquindio.uniEventos.excepciones.cuenta.CuentaNoEncontradaException;
@@ -53,13 +54,13 @@ public class OrdenServicioImpl implements OrdenServicio {
     private final EventoServicio eventoServicio;
 
     @Override
-    public String crearOrden(CrearOrdenDTO crearOrdenDTO) {
+    public String crearOrden(CrearOrdenDTO crearOrdenDTO) throws CuponNoEncontradoException,EventoNoEncontradoException, CuentaNoEncontradaException {
 
         // Verificar la existencia del cliente (cuenta)
         Optional<Cuenta> cuentaOptional = cuentaRepo.findById(crearOrdenDTO.idCliente());
 
         if (cuentaOptional.isEmpty()) {
-            throw new RuntimeException("Cliente no encontrado");
+            throw new CuentaNoEncontradaException("Cliente no encontrado");
         }
 
         Cuenta cuenta = cuentaOptional.get();
@@ -81,11 +82,12 @@ public class OrdenServicioImpl implements OrdenServicio {
         // Validar los eventos y localidades dentro del carrito
         List<DetalleOrden> detalles = new ArrayList<>();
 
-        for (DetalleCarrito itemCarrito : carrito.getItems()) {
+        for (DetalleCarrito itemCarrito : carrito.getItems())
+        {
             Optional<Evento> eventoOptional = eventoRepo.findById(itemCarrito.getIdEvento().toString());
 
             if (eventoOptional.isEmpty()) {
-                throw new RuntimeException("Evento no encontrado");
+                throw new EventoNoEncontradoException("Evento no encontrado");
             }
 
             Evento evento = eventoOptional.get();
@@ -128,7 +130,7 @@ public class OrdenServicioImpl implements OrdenServicio {
             Optional<Cupon> cuponOptional = cuponRepo.findById(crearOrdenDTO.idCupon());
 
             if (cuponOptional.isEmpty()) {
-                throw new RuntimeException("Cupón no encontrado");
+                throw new CuponNoEncontradoException("Cupón no encontrado");
             }
 
             Cupon cupon = cuponOptional.get();
@@ -162,16 +164,15 @@ public class OrdenServicioImpl implements OrdenServicio {
         return total - descuento;
     }
 
-
-
+    
     @Override
-    public ObtenerOrdenDTO obtenerOrdenPorId(String idOrden) {
+    public ObtenerOrdenDTO obtenerOrdenPorId(String idOrden) throws OrdenNoEncontradaException {
         // Buscar la orden en el repositorio por su ID
         Optional<Orden> ordenOptional = ordenRepo.findById(idOrden);
 
         // Si la orden no se encuentra, lanzamos una excepción
         if (ordenOptional.isEmpty()) {
-            throw new RuntimeException("Orden no encontrada");
+            throw new OrdenNoEncontradaException("Orden no encontrada");
         }
 
         Orden orden = ordenOptional.get();
