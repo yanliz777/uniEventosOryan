@@ -1,4 +1,10 @@
 package co.edu.uniquindio.uniEventos.dto;
 
-public record FiltroEventoDTO() {
+import co.edu.uniquindio.uniEventos.modelo.enums.TipoEvento;
+
+public record FiltroEventoDTO(
+        String nombre,
+        TipoEvento tipo,
+        String ciudad
+) {
 }
