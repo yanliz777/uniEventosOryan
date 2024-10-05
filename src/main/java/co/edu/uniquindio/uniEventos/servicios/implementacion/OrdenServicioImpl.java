@@ -1,7 +1,9 @@
 package co.edu.uniquindio.uniEventos.servicios.implementacion;
 
 import co.edu.uniquindio.uniEventos.dto.CrearOrdenDTO;
+import co.edu.uniquindio.uniEventos.dto.DetalleOrdenDTO;
 import co.edu.uniquindio.uniEventos.dto.ObtenerOrdenDTO;
+import co.edu.uniquindio.uniEventos.dto.PagoDTO;
 import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenNoCancelableException;
 import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenNoEncontradaException;
 import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenYaCanceladaException;
@@ -32,7 +34,7 @@ public class OrdenServicioImpl implements OrdenServicio {
     private final CuentaRepo cuentaRepo;
     private final CarritoRepo carritoRepo;
 
-    private final EmailServicio emailService;
+    private final EmailServicio emailServicio;
     private final EventoServicio eventoServicio;
 
     @Override
@@ -145,15 +147,100 @@ public class OrdenServicioImpl implements OrdenServicio {
         return total - descuento;
     }
 
+
+
     @Override
     public ObtenerOrdenDTO obtenerOrdenPorId(String idOrden) {
-        return null;
+        // Buscar la orden en el repositorio por su ID
+        Optional<Orden> ordenOptional = ordenRepo.findById(idOrden);
+
+        // Si la orden no se encuentra, lanzamos una excepción
+        if (ordenOptional.isEmpty()) {
+            throw new RuntimeException("Orden no encontrada");
+        }
+
+        Orden orden = ordenOptional.get();
+
+        // Convertir la lista de DetalleOrden a DetalleOrdenDTO
+        List<DetalleOrdenDTO> detallesDTO = new ArrayList<>();
+
+        for (DetalleOrden detalle : orden.getItems()) {
+
+            DetalleOrdenDTO detalleDTO = new DetalleOrdenDTO(
+                    detalle.getIdEvento().toString(),
+                    detalle.getNombreLocalidad(),
+                    detalle.getCantidad(),
+                    detalle.getPrecio()
+            );
+            detallesDTO.add(detalleDTO);
+        }
+
+        // Retornar el DTO con la información relevante
+        return new ObtenerOrdenDTO(
+                orden.getId(),
+                orden.getIdCliente().toString(),
+                orden.getFecha(),
+                orden.getCodigoPasarela(),
+                detallesDTO,
+                orden.getTotal(),
+                new PagoDTO(
+                        orden.getPago().getMoneda(),
+                        orden.getPago().getCodigoAutorizacion(),
+                        orden.getPago().getTipoPago(),
+                        orden.getPago().getDetalleEstado(),
+                        orden.getPago().getValorTransaccion(),
+                        orden.getPago().getEstado()
+                )
+        );
+
     }
+
+
 
     @Override
-    public String cancelarOrden(String idOrden) throws OrdenNoEncontradaException, OrdenYaCanceladaException, OrdenNoCancelableException {
-        return "";
+    public String cancelarOrden(String idOrden) throws OrdenNoEncontradaException, OrdenYaCanceladaException,OrdenNoCancelableException {
+        // Buscar la orden en el repositorio por su ID
+        Optional<Orden> ordenOptional = ordenRepo.findById(idOrden);
+
+        // Si no se encuentra la orden, lanzar una excepción
+        if (ordenOptional.isEmpty()) {
+            throw new OrdenNoEncontradaException("No se encontró la orden con el ID: " + idOrden);
+        }
+
+        Orden orden = ordenOptional.get();
+
+        // Verificar que la orden no esté ya cancelada
+        if (orden.getEstado().equals(EstadoOrden.CANCELADA)) {
+            throw new OrdenYaCanceladaException("La orden ya está cancelada");
+        }
+
+        // Verificar si la fecha del evento asociado es mayor a dos días antes del evento
+        for (DetalleOrden detalle : orden.getItems()) {
+
+            Optional<Evento> eventoOptional = eventoRepo.findById(detalle.getIdEvento().toString());
+
+            if (!eventoOptional.isPresent()) {
+                throw new RuntimeException("Evento no encontrado");
+            }
+
+            Evento evento = eventoOptional.get();
+            LocalDateTime fechaActual = LocalDateTime.now();
+            LocalDateTime fechaEvento = evento.getFechaEvento();
+
+            // No se puede cancelar la orden si faltan menos de dos días para el evento
+            if (fechaEvento.minusDays(2).isBefore(fechaActual)) {
+                throw new OrdenNoCancelableException("No se puede cancelar la orden, " +
+                        "faltan menos de dos días para el evento");
+            }
+        }
+
+        // Cambiar el estado de la orden a CANCELADA
+        orden.setEstado(EstadoOrden.CANCELADA);
+
+        // Guardar la orden actualizada en la base de datos
+        ordenRepo.save(orden);
+
+        // Retornar un mensaje de éxito
+        return "Orden cancelada con éxito. ID: " + orden.getId();
     }
-
-
 }

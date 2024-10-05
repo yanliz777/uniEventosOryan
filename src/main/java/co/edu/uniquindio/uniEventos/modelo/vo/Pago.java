@@ -15,6 +15,6 @@ public class Pago {
     private String tipoPago;
     private String detalleEstado;
     private LocalDateTime fecha;
-    private double valorTransaccion;
+    private float valorTransaccion;
     private String estado;
 }

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
 public record DetalleOrdenDTO(
-        @NotBlank @Length(max = 10)String idEvento,
+        @NotBlank @Length(max = 30)String idEvento,
         @NotBlank String nombreLocalidad,
         @NotBlank int cantidad,
         @NotBlank float precio

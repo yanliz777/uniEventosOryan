@@ -1,13 +1,11 @@
-package co.edu.uniquindio;
+package co.edu.uniquindio.uniEventos;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
 @SpringBootApplication
-public class UniEventosAplicacion {
-
+public class ProyectoApplication {
     public static void main(String[] args) {
-        SpringApplication.run(UniEventosAplicacion.class, args);
+        SpringApplication.run(ProyectoApplication.class, args);
     }
 }

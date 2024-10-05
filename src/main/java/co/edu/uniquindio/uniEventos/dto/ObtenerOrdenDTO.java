@@ -1,4 +1,15 @@
 package co.edu.uniquindio.uniEventos.dto;
 
-public record ObtenerOrdenDTO() {
+import java.time.LocalDateTime;
+import java.util.List;
+
+public record ObtenerOrdenDTO(
+        String id,
+        String idCliente,
+        LocalDateTime fecha,
+        String codigoPasarela,
+        List<DetalleOrdenDTO> detalles,
+        float total,
+        PagoDTO pago
+) {
 }
