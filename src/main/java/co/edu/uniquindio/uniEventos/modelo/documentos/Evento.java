@@ -31,4 +31,14 @@ public class Evento {
     private TipoEvento tipo;
     private LocalDateTime fechaEvento;
     private EstadoEvento estado;
+
+    public Localidad obtenerLocalidad(String nombreLocalidad) {
+
+        for (Localidad localidad : localidades) {
+            if (localidad.getNombre().equals(nombreLocalidad)) {
+                return localidad;
+            }
+        }
+        return null;
+    }
 }

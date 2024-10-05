@@ -16,9 +16,7 @@ public class EventoServicioImpl implements EventoServicio {
 
     private final EventoRepo eventoRepo;
 
-
-
-
+    @Override
     public Evento obtenerEvento(String id) throws Exception {
 
         Optional<Evento> eventoOptional = eventoRepo.findById(id);

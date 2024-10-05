@@ -1,13 +1,15 @@
 package co.edu.uniquindio.uniEventos.servicios.implementacion;
 
-import co.edu.uniquindio.uniEventos.dto.CrearOrdenDTO;
-import co.edu.uniquindio.uniEventos.dto.DetalleOrdenDTO;
-import co.edu.uniquindio.uniEventos.dto.ObtenerOrdenDTO;
-import co.edu.uniquindio.uniEventos.dto.PagoDTO;
+import co.edu.uniquindio.uniEventos.dto.*;
+import co.edu.uniquindio.uniEventos.servicios.implementacion.EventoServicioImpl;
+import co.edu.uniquindio.uniEventos.excepciones.EventoNoEncontradoException;
+import co.edu.uniquindio.uniEventos.excepciones.cuenta.CuentaNoEncontradaException;
+import co.edu.uniquindio.uniEventos.excepciones.orden.HistorialOrdenesVacionException;
 import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenNoCancelableException;
 import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenNoEncontradaException;
 import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenYaCanceladaException;
 import co.edu.uniquindio.uniEventos.modelo.documentos.*;
+import co.edu.uniquindio.uniEventos.modelo.enums.EstadoCuenta;
 import co.edu.uniquindio.uniEventos.modelo.enums.EstadoOrden;
 import co.edu.uniquindio.uniEventos.modelo.vo.DetalleCarrito;
 import co.edu.uniquindio.uniEventos.modelo.vo.DetalleOrden;
@@ -35,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -208,7 +211,6 @@ public class OrdenServicioImpl implements OrdenServicio {
     }
 
 
-
     @Override
     public String cancelarOrden(String idOrden) throws OrdenNoEncontradaException, OrdenYaCanceladaException,OrdenNoCancelableException {
         // Buscar la orden en el repositorio por su ID
@@ -255,7 +257,8 @@ public class OrdenServicioImpl implements OrdenServicio {
         // Retornar un mensaje de éxito
         return "Orden cancelada con éxito. ID: " + orden.getId();
     }
-/*
+
+
     @Override
     public Preference realizarPago(String idOrden) throws Exception {
 // Obtener la orden guardada en la base de datos y los ítems de la orden
@@ -264,12 +267,12 @@ public class OrdenServicioImpl implements OrdenServicio {
 // Recorrer los items de la orden y crea los ítems de la pasarela
         for(DetalleOrden item : ordenGuardada.getItems()){
 // Obtener el evento y la localidad del ítem
-            Evento evento = eventoServicio.obtenerEvento(item.getCodigoEvento().toString());
+            Evento evento = eventoServicio.obtenerEvento(item.getId().toString());
             Localidad localidad = evento.obtenerLocalidad(item.getNombreLocalidad());
 // Crear el item de la pasarela
             PreferenceItemRequest itemRequest =
                     PreferenceItemRequest.builder()
-                            .id(evento.getCodigo())
+                            .id(evento.getId())
                             .title(evento.getNombre())
                             .pictureUrl(evento.getImagenPortada())
                             .categoryId(evento.getTipo().name())
@@ -292,7 +295,7 @@ public class OrdenServicioImpl implements OrdenServicio {
         PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                 .backUrls(backUrls)
                 .items(itemsPasarela)
-                .metadata(Map.of("id_orden", ordenGuardada.getCodigo()))
+                .metadata(Map.of("id_orden", ordenGuardada.getId()))
                 .notificationUrl("URL NOTIFICACION")
                 .build();
 // Crear la preferencia en la pasarela de MercadoPago
@@ -303,7 +306,7 @@ public class OrdenServicioImpl implements OrdenServicio {
         ordenRepo.save(ordenGuardada);
 
         return preference;
-    }*/
+    }
 
     /*
  Metodo que me permite obtener una cuenta por su id:
@@ -352,6 +355,79 @@ la base de datos.
             e.printStackTrace();
         }
     }
+
+    @Override
+    public List<ItemOrdenDTO> historialOrdenes(String idUsuario) throws CuentaNoEncontradaException, HistorialOrdenesVacionException {
+
+        // Verificar la existencia de la cuenta de usuario
+        Optional<Cuenta> cuentaOptional = cuentaRepo.findById(idUsuario);
+
+        if (cuentaOptional.isEmpty()) {
+            throw new CuentaNoEncontradaException("El usuario no existe");
+        }
+
+        // Obtener las órdenes del usuario
+        List<Orden> ordenes = ordenRepo.findByIdCliente(new ObjectId(idUsuario));
+
+        if (ordenes.isEmpty()) {
+            throw new HistorialOrdenesVacionException("El usuario no tiene órdenes registradas");
+        }
+
+        // Crear lista de resúmenes de órdenes
+        List<ItemOrdenDTO> historial = new ArrayList<>();
+
+        for (Orden orden : ordenes) {
+            // Lista para almacenar los detalles de la orden convertidos
+            List<DetalleOrdenResumenDTO> detallesResumen = new ArrayList<>();
+
+            // Iterar sobre cada detalle de la orden
+            for (DetalleOrden detalle : orden.getItems()) {
+                // Obtener el evento correspondiente al detalle
+                Optional<Evento> eventoOptional = eventoRepo.findById(detalle.getIdEvento().toString());
+
+                // Verificar si el evento existe
+                if (eventoOptional.isEmpty()) {
+                    throw new EventoNoEncontradoException("Evento no encontrado para el ID: " + detalle.getIdEvento());
+                }
+
+                Evento evento = eventoOptional.get();
+
+                // Crear un nuevo DetalleOrdenResumenDTO y añadirlo a la lista
+                DetalleOrdenResumenDTO detalleResumen = new DetalleOrdenResumenDTO(
+                        detalle.getIdEvento().toString(),
+                        evento.getNombre(),
+                        detalle.getNombreLocalidad(),
+                        detalle.getCantidad(),
+                        detalle.getPrecio()
+                );
+                detallesResumen.add(detalleResumen);
+            }
+
+            // Crear un nuevo ItemOrdenDTO y añadirlo al historial
+            //String idCupon = orden.getIdCupon() != null ? orden.getIdCupon().toString() : null;
+            String idCupon;
+            if (orden.getIdCupon() != null)
+            {
+                idCupon = orden.getIdCupon().toString();
+            }
+            else {
+                idCupon = null;
+            }
+
+            ItemOrdenDTO itemOrden = new ItemOrdenDTO(
+                    orden.getId().toString(),
+                    orden.getIdCliente().toString(),
+                    orden.getFecha(),
+                    orden.getCodigoPasarela(),
+                    idCupon,
+                    orden.getTotal(),
+                    detallesResumen
+            );
+            historial.add(itemOrden);
+        }
+        return historial;
+    }
+
     //---------------------------------------------------------------------------------------------------
     private Pago crearPago(Payment payment) {
         Pago pago = new Pago();
@@ -365,6 +441,7 @@ la base de datos.
         pago.setValorTransaccion(payment.getTransactionAmount().floatValue());
         return pago;
     }
+
 
 
 }
