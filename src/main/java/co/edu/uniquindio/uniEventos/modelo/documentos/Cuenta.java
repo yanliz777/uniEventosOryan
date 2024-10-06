@@ -4,6 +4,7 @@ import co.edu.uniquindio.uniEventos.modelo.enums.EstadoCuenta;
 import co.edu.uniquindio.uniEventos.modelo.enums.Rol;
 import co.edu.uniquindio.uniEventos.modelo.vo.CodigoValidacion;
 import co.edu.uniquindio.uniEventos.modelo.vo.Usuario;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
