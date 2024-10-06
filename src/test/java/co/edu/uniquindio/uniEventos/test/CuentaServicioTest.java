@@ -2,9 +2,11 @@ package co.edu.uniquindio.uniEventos.test;
 
 import co.edu.uniquindio.uniEventos.configuracion.JWTUtils;
 import co.edu.uniquindio.uniEventos.dto.CrearCuentaDTO;
+import co.edu.uniquindio.uniEventos.dto.ItemCuentaDTO;
 import co.edu.uniquindio.uniEventos.dto.LoginDTO;
 import co.edu.uniquindio.uniEventos.dto.TokenDTO;
 import co.edu.uniquindio.uniEventos.excepciones.cuenta.CuentaNoCreadaException;
+import co.edu.uniquindio.uniEventos.excepciones.cuenta.CuentaNoEncontradaException;
 import co.edu.uniquindio.uniEventos.excepciones.cuenta.SesionNoIniciadaException;
 import co.edu.uniquindio.uniEventos.servicios.interfaces.CuentaServicio;
 import org.junit.jupiter.api.Assertions;
@@ -58,5 +60,14 @@ public class CuentaServicioTest {
 
         // Imprimir el token en la consola
         System.out.println("Token generado: " + token.token());
+    }
+
+    @Test
+    public void listarCuentasTest() throws CuentaNoEncontradaException {
+        List<ItemCuentaDTO> mostrarCuentas = cuentaServicio.listarCuentas();
+
+        Assertions.assertNotNull(mostrarCuentas);
+
+        mostrarCuentas.forEach(System.out::println);
     }
 }
