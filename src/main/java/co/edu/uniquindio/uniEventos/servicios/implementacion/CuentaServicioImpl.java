@@ -115,9 +115,7 @@ public class CuentaServicioImpl implements CuentaServicio {
             cuentaRepo.save(nuevaCuenta);
 
             String body = PlantillasEmailConfig.bodyCreacionCuenta.replace("[Nombres]",
-                    cuenta.nombre()).replace("[Apellidos]",
-                    codigoAleatorio
-            );
+                    cuenta.nombre()).replace("[Codigo_Activacion]",codigoAleatorio);
 
 
             //toca enviar un email al usuario con el codigo de validación

@@ -10,7 +10,7 @@ public class PlantillasEmailConfig {
             "<head>\n" +
             "    <meta charset=\"UTF-8\">\n" +
             "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
-            "    <title>Bienvenido a la Clínica Privada</title>\n" +
+            "    <title>Bienvenido a UniEvento</title>\n" +
             "    <style>\n" +
             "        body {\n" +
             "            font-family: Arial, sans-serif;\n" +
@@ -49,11 +49,11 @@ public class PlantillasEmailConfig {
             "<body>\n" +
             "\n" +
             "    <div class=\"header\">\n" +
-            "        Bienvenido a la Clínica Privada!\n" +
+            "        Bienvenido a Unieventos!\n" +
             "    </div>\n" +
             "\n" +
             "    <div class=\"container\">\n" +
-            "        <p class=\"welcome-message\">[Nombres] [Apellidos], Gracias por afiliarse a nuestra entidad de salud, \"Clínica Privada\".</p>\n" +
+            "        <p class=\"welcome-message\">[Nombres], Gracias por registrarte en nuestra página, \"UniEventos\".</p>\n" +
             "        <p>Para activar su cuenta, use el siguiente código:</p>\n" +
             "        <p class=\"activation-code\">Código de Activación: [Codigo_Activacion]</p>\n" +
             "    </div>\n" +

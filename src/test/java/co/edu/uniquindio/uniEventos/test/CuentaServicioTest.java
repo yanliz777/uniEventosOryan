@@ -19,10 +19,10 @@ public class CuentaServicioTest {
     public void crearCuentaTest() throws CuentaNoCreadaException {
         CrearCuentaDTO registrarCuenta = new CrearCuentaDTO(
                 "1094958632",
-                "Andrés",
+                "Yan",
                 "3152684521",
                 "Tebaida",
-                "andresmolinagomez56@gmail.com",
+                "fc9294011@gmail.com",
                 "12345678"
         );
 
