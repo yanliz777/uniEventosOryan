@@ -171,7 +171,7 @@ public class CuentaServicioImpl implements CuentaServicio {
 
 
     @Override
-    public String editarCuenta(EditarClienteDTO cuenta) throws CuentaNoEditadaException {
+    public String editarCuenta(EditarCuentaDTO cuenta) throws CuentaNoEditadaException {
         try{
             Cuenta cuentaModificada = obtenerCuenta(cuenta.id());
 

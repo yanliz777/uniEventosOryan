@@ -16,7 +16,7 @@ public interface CuentaServicio {
 
     String crearCuenta(CrearCuentaDTO cuenta) throws CuentaNoCreadaException;
 
-    String editarCuenta(EditarClienteDTO cuenta) throws CuentaNoEditadaException;
+    String editarCuenta(EditarCuentaDTO cuenta) throws CuentaNoEditadaException;
 
     String eliminarCuenta(String id) throws Exception;
 
