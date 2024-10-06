@@ -19,7 +19,6 @@ public record CrearEventoDTO(
         @NotBlank @Length (max = 100)String direccion,
         @NotBlank TipoEvento tipoEvento,
         @NotBlank LocalDateTime fechaEvento,
-        @NotBlank List<Localidad> localidades,
-        @NotNull EstadoEvento estado
+        @NotBlank List<Localidad> localidades
 ) {
 }
