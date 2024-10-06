@@ -19,6 +19,9 @@ public interface CuponServicio {
     InformacionCuponDTO obtenerInformacionCupon(String id) throws CuponNoEncontradoException;
     String enviarCodigoCuponPersonal(String correo) throws Exception;
     String enviarCodigoCuponATodos() throws Exception;
+
+    boolean redimirCupon(String codigo) throws Exception;
+
     List<ItemCuponDTO> listarCupones() throws CuponesNoEncontradosException;
     List<ItemCuponDTO> listarCuponesDisponibles() throws CuponesNoEncontradosException;
     List<ItemCuponDTO> listarCuponesPorNombre(String nombre) throws CuponesNoEncontradosException;

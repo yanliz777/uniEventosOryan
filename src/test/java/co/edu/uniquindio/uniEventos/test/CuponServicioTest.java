@@ -156,5 +156,14 @@ public class CuponServicioTest {
         }
     }
 
+    @Test
+    public void redimirCuponTest() {
+        String codigoCupon = "CUPON2024";
+        Assertions.assertDoesNotThrow(() -> {
+            boolean resultado = cuponServicio.redimirCupon(codigoCupon);
+            Assertions.assertTrue(resultado);
+        });
+    }
+
 }
 

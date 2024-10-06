@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -117,6 +119,19 @@ public class CuponServicioImpl implements CuponServicio {
     public String enviarCodigoCuponATodos() throws Exception {
         // TODO implementar en cuenta que permita obtener todos los correos activos de la base de datos
         return null;
+    }
+
+    @Override
+    public boolean redimirCupon(String codigo) throws Exception {
+        Cupon cupon = obtenerCupon(codigo);
+
+        if (cupon.getFechaVencimiento().isBefore(LocalDateTime.now())) {
+            throw new Exception("El cupón ha vencido.");
+        }
+
+        cupon.setEstado(EstadoCupon.ELIMINADO);
+        cuponRepo.save(cupon);
+        return true;
     }
 
     @Override
