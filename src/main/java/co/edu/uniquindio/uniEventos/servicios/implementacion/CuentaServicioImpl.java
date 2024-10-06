@@ -123,7 +123,7 @@ public class CuentaServicioImpl implements CuentaServicio {
             //toca enviar un email al usuario con el codigo de validación
             emailService.enviarCorreo( new EmailDTO(cuenta.email(), "Asunto mensaje", body) );
 
-            return "Sue cuenta se ha creado correctamente";
+            return "Su cuenta se ha creado correctamente";
 
         } catch (Exception e){
             throw new CuentaNoCreadaException("Error al crear cuenta" + e.getMessage());

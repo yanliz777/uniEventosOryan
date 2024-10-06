@@ -4,6 +4,8 @@ import co.edu.uniquindio.uniEventos.dto.CrearOrdenDTO;
 import co.edu.uniquindio.uniEventos.dto.DetalleOrdenDTO;
 import co.edu.uniquindio.uniEventos.dto.ObtenerOrdenDTO;
 import co.edu.uniquindio.uniEventos.dto.PagoDTO;
+import co.edu.uniquindio.uniEventos.excepciones.CuponNoEncontradoException;
+import co.edu.uniquindio.uniEventos.excepciones.cuenta.CuentaNoEncontradaException;
 import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenNoCancelableException;
 import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenNoEncontradaException;
 import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenYaCanceladaException;
@@ -50,7 +52,7 @@ public class OrdenServicioTest {
     private EventoRepo eventoRepo;
 
     @Test
-    public void crearOrdenTest1() {
+    public void crearOrdenTest1() throws CuponNoEncontradoException, CuentaNoEncontradaException {
         // Simulación de los datos necesarios para crear la orden
 
         // 1. Crear el cliente (cuenta)
