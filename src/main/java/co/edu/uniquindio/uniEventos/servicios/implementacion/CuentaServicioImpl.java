@@ -41,7 +41,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         try {
 
             // 1. Buscar la cuenta por email.
-            Optional<Cuenta> cuentaOptional = cuentaRepo.buscaEmail(email);
+            Optional<Cuenta> cuentaOptional = cuentaRepo.findByEmail(email);
 
             // 2. Verificar si la cuenta existe.
             if (cuentaOptional.isEmpty()) {
@@ -145,7 +145,7 @@ public class CuentaServicioImpl implements CuentaServicio {
     existe llamando un metodo implementado en la interface CuentaRepo
     */
     private boolean existeCedula(String cedula) {
-        return cuentaRepo.buscaCedula(cedula).isPresent();
+        return cuentaRepo.findByCedula(cedula).isPresent();
     }
 
     /*
@@ -154,7 +154,7 @@ public class CuentaServicioImpl implements CuentaServicio {
     */
     private boolean existeEmail(String email) {
 
-        return cuentaRepo.buscaEmail(email).isPresent();
+        return cuentaRepo.findByEmail(email).isPresent();
     }
 
     /**
@@ -241,7 +241,7 @@ public class CuentaServicioImpl implements CuentaServicio {
         try{
             //Optional<Cuenta>  cuentaOptional: se usa para almacenar el resultado de la búsqueda, que puede
             //o no contener un valor (una cuenta encontrada o no).
-            Optional<Cuenta>  cuentaOptional = cuentaRepo.buscaEmail(correo);
+            Optional<Cuenta>  cuentaOptional = cuentaRepo.findByEmail(correo);
 
             if(cuentaOptional.isEmpty()){
                 throw new CodigoValidacionNoEnviadoException("No se encontró una cuenta con ese email ");
@@ -273,7 +273,7 @@ public class CuentaServicioImpl implements CuentaServicio {
     public String cambiarPassword(CambiarPasswordDTO cambiarPasswordDTO) throws PasswordNoEditadaException {
 
         try{
-            Optional<Cuenta>  cuentaOptional = cuentaRepo.buscaEmail(cambiarPasswordDTO.email());
+            Optional<Cuenta>  cuentaOptional = cuentaRepo.findByEmail(cambiarPasswordDTO.email());
 
             if (cuentaOptional.isEmpty()){
                 throw new PasswordNoEditadaException("El correo dado no esta registrado");
@@ -323,7 +323,7 @@ public class CuentaServicioImpl implements CuentaServicio {
 
     private Cuenta obtenerPorEmail(String email) throws Exception{
         try {
-            Optional<Cuenta> cuenta = cuentaRepo.buscaEmail( email );
+            Optional<Cuenta> cuenta = cuentaRepo.findByEmail( email );
 
             if( cuenta.isEmpty() ){
                 throw new Exception("Cuenta no encontrado.");
