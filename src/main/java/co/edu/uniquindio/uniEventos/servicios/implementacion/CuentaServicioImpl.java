@@ -119,7 +119,7 @@ public class CuentaServicioImpl implements CuentaServicio {
 
 
             //toca enviar un email al usuario con el codigo de validación
-            emailService.enviarCorreo( new EmailDTO(cuenta.email(), "Asunto mensaje", body) );
+            emailService.enviarCorreo( new EmailDTO("Creacion cuenta Unievento",  body, cuenta.email()) );
 
             return "Su cuenta se ha creado correctamente";
 
