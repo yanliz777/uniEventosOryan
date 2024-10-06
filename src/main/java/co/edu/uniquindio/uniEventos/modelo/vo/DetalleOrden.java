@@ -1,6 +1,8 @@
 package co.edu.uniquindio.uniEventos.modelo.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.bson.types.ObjectId;
 
@@ -9,6 +11,8 @@ import org.bson.types.ObjectId;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class DetalleOrden {
     private String id;
     private ObjectId idEvento;
