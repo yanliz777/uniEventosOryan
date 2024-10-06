@@ -293,11 +293,19 @@ public class OrdenServicioImpl implements OrdenServicio {
                 .pending("URL PAGO PENDIENTE")
                 .build();
 // Construir la preferencia de la pasarela con los ítems, metadatos y urls de retorno
+/*
+En .notificationUrl("https://fccd-191-95-149-100.ngrok-free.app/notifications") He
+añadido "/notifications" al final de la URL. debemos asegurarnos de que esto coincida
+con el endpoint real de la aplicación que manejará las notificaciones de MercadoPago.
+
+Recordar que cada vez que se reinicie ngrok,se obtendrá una nueva URL. y
+Tenemos que actualizar esta parte del código con la nueva URL cada vez que esto suceda.
+ */
         PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                 .backUrls(backUrls)
                 .items(itemsPasarela)
                 .metadata(Map.of("id_orden", ordenGuardada.getId()))
-                .notificationUrl("URL NOTIFICACION")
+                .notificationUrl("https://fccd-191-95-149-100.ngrok-free.app/notifications")
                 .build();
 // Crear la preferencia en la pasarela de MercadoPago
         PreferenceClient client = new PreferenceClient();
