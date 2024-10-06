@@ -40,14 +40,16 @@ public class EventoServicioImpl implements EventoServicio {
         }
 
         Evento nuevoEvento = new Evento();
-        nuevoEvento.setFechaEvento(crearEventoDTO.fechaEvento());
+        nuevoEvento.setCiudad(crearEventoDTO.ciudad());
+        nuevoEvento.setImagenPortada(crearEventoDTO.imagenImportada());
+        nuevoEvento.setImagenLocalidades(crearEventoDTO.imagenLocalidades());
         nuevoEvento.setNombre(crearEventoDTO.nombre());
         nuevoEvento.setDescripcion(crearEventoDTO.descripcion());
+        nuevoEvento.setDireccion(crearEventoDTO.direccion());
+        nuevoEvento.setTipo(crearEventoDTO.tipoEvento());
+        nuevoEvento.setFechaEvento(crearEventoDTO.fechaEvento());
+        nuevoEvento.setLocalidades(crearEventoDTO.localidades());
         nuevoEvento.setEstado(EstadoEvento.ACTIVO);
-        nuevoEvento.setTipo(crearEventoDTO.tipo());
-        nuevoEvento.setCiudad(crearEventoDTO.ciudad());
-        nuevoEvento.setLocalidades(crearEventoDTO.localidades()
-        );
 
         eventoRepo.save(nuevoEvento);
 
@@ -64,17 +66,18 @@ public class EventoServicioImpl implements EventoServicio {
         }
 
         eventoModificado.setImagenPortada(editarEventoDTO.imagenPortada());
-        eventoModificado.setEstado(editarEventoDTO.estado());
-        eventoModificado.setDescripcion(editarEventoDTO.descripcion());
         eventoModificado.setImagenLocalidades(editarEventoDTO.imagenLocalidades());
+        eventoModificado.setDescripcion(editarEventoDTO.descripcion());
+        eventoModificado.setEstado(editarEventoDTO.estado());
+        eventoModificado.setDireccion(editarEventoDTO.direccion());
+        eventoModificado.setCiudad(editarEventoDTO.ciudad());
         eventoModificado.setFechaEvento(editarEventoDTO.fechaEvento());
+        eventoModificado.setNombre(editarEventoDTO.nombre());
 
         eventoRepo.save(eventoModificado);
         return eventoModificado.getId();
     }
 
-    //Preguntar si se deben hacer más validaciones para eliminar un evento
-    //por ejemplo, si ya hay ordenes asociadas al evento que se va a eliminar
     @Override
     public String eliminarEvento(String id) throws EventoNoEliminadoException {
 
@@ -94,15 +97,13 @@ public class EventoServicioImpl implements EventoServicio {
 
         return new InformacionEventoDTO(
                 id,
-                evento.getEstado(),
-                evento.getNombre(),
-                evento.getDescripcion(),
-                evento.getTipo(),
-                evento.getFechaEvento(),
-                evento.getCiudad(),
                 evento.getImagenPortada(),
-                evento.getImagenLocalidades(),
-                evento.getLocalidades()
+                evento.getDireccion(),
+                evento.getCiudad(),
+                evento.getFechaEvento(),
+                evento.getTipo(),
+                evento.getEstado(),
+                evento.getDescripcion()
         );
     }
 
