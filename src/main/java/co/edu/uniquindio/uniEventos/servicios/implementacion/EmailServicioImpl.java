@@ -32,7 +32,7 @@ public class EmailServicioImpl implements EmailServicio {
                 .from(emailUsername)
                 .to(emailDTO.destinatario())
                 .withSubject(emailDTO.asunto())
-                .withPlainText(emailDTO.cuerpo())
+                .withHTMLText(emailDTO.cuerpo())
                 .buildEmail();
 
         try (Mailer mailer = MailerBuilder
