@@ -4,13 +4,13 @@ import co.edu.uniquindio.uniEventos.dto.CrearOrdenDTO;
 import co.edu.uniquindio.uniEventos.dto.ItemOrdenDTO;
 import co.edu.uniquindio.uniEventos.dto.MensajeDTO;
 import co.edu.uniquindio.uniEventos.dto.ObtenerOrdenDTO;
-import co.edu.uniquindio.uniEventos.excepciones.CuponNoEncontradoException;
-import co.edu.uniquindio.uniEventos.excepciones.EventoNoEncontradoException;
+import co.edu.uniquindio.uniEventos.excepciones.*;
 import co.edu.uniquindio.uniEventos.excepciones.cuenta.CuentaNoEncontradaException;
 import co.edu.uniquindio.uniEventos.excepciones.orden.HistorialOrdenesVacionException;
 import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenNoCancelableException;
 import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenNoEncontradaException;
 import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenYaCanceladaException;
+import co.edu.uniquindio.uniEventos.modelo.documentos.Carrito;
 import co.edu.uniquindio.uniEventos.modelo.vo.DetalleCarrito;
 import co.edu.uniquindio.uniEventos.servicios.implementacion.CarritoServicioImpl;
 import co.edu.uniquindio.uniEventos.servicios.interfaces.OrdenServicio;
@@ -85,10 +85,27 @@ public class ClienteControlador {
         return ResponseEntity.ok(mensajeDTO);
     }
 
-    // /carrito/crear//{idUsuario}
-
+    // /carrito/crear/{idUsuario}
+    @PostMapping("/carrito/crear/{idUsuario}")
+    public ResponseEntity<MensajeDTO<String>> crearCarrito(@PathVariable String idUsuario) throws CarritoNoEncontradoException {
+        try {
+            carritoServicio.crearCarrito(idUsuario);
+            return ResponseEntity.ok().body( new MensajeDTO<>( false, "El Carrito fue creado correctamente."));
+        } catch (Exception e){
+            throw  new CarritoNoEncontradoException("Carrito no creado " + e.getMessage());
+        }
+    }
 
     // /carrito/obtener/{idUsuario}
+    @GetMapping("/carrito/obtener/{idUsuario}")
+    public ResponseEntity<MensajeDTO<Carrito>> obtenerCarritoUsuario(@PathVariable String idUsuario) throws CarritoNoEncontradoException {
+        try {
+            Carrito carrito = carritoServicio.obtenerCarritoUsuario(idUsuario);
+            return ResponseEntity.ok().body( new MensajeDTO<>( false, carrito));
+        } catch (Exception e){
+            throw  new CarritoNoEncontradoException("Carrito no creado " + e.getMessage());
+        }
+    }
 
     @DeleteMapping("/eliminarItem/{id}")
     public ResponseEntity<MensajeDTO<String>> eliminarItem(@PathVariable String id) throws Exception {
