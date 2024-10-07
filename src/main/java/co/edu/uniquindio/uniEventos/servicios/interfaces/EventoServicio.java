@@ -24,6 +24,8 @@ public interface EventoServicio {
 
     List<ItemEventoDTO> filtrarEventos(FiltroEventoDTO filtroEventoDTO) throws EventoNoEncontradoException;
 
+    List<ItemEventoDTO> listarEventosPaginados(int pagina, int tamano) throws EventoNoEncontradoException;
+
     Evento obtenerEvento(String string) throws EventoNoEncontradoException;
 
 }
