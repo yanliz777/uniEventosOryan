@@ -7,8 +7,12 @@ import co.edu.uniquindio.uniEventos.excepciones.EventoNoEncontradoException;
 import co.edu.uniquindio.uniEventos.excepciones.EventoNoCreadoException;
 import co.edu.uniquindio.uniEventos.modelo.documentos.Evento;
 import co.edu.uniquindio.uniEventos.modelo.enums.EstadoEvento;
+import co.edu.uniquindio.uniEventos.modelo.enums.TipoEvento;
 import co.edu.uniquindio.uniEventos.repositorios.EventoRepo;
 import co.edu.uniquindio.uniEventos.servicios.interfaces.EventoServicio;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -126,9 +130,31 @@ public class EventoServicioImpl implements EventoServicio {
     @Override
     public List<ItemEventoDTO> filtrarEventos(FiltroEventoDTO filtroEventoDTO) throws EventoNoEncontradoException {
 
-        List<Evento> eventos = eventoRepo.filtrarEventos(filtroEventoDTO.nombre(), filtroEventoDTO.tipo(), filtroEventoDTO.ciudad());
+        String nombre = (filtroEventoDTO.nombre() != null && !filtroEventoDTO.nombre().isEmpty()) ? filtroEventoDTO.nombre() : "";
+        TipoEvento tipo = filtroEventoDTO.tipo() != null ? filtroEventoDTO.tipo() : null;
+        String ciudad = (filtroEventoDTO.ciudad() != null && !filtroEventoDTO.ciudad().isEmpty()) ? filtroEventoDTO.ciudad() : "";
+
+        List<Evento> eventos = eventoRepo.findEventosByNombreIsLikeIgnoreCaseAndTipoIsLikeIgnoreCaseAndCiudadIsLikeIgnoreCase(nombre, tipo, ciudad);
 
         return eventos.stream()
+                .map(evento -> new ItemEventoDTO(
+                        evento.getImagenPortada(),
+                        evento.getNombre(),
+                        evento.getFechaEvento(),
+                        evento.getCiudad()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ItemEventoDTO> listarEventosPaginados(int pagina, int tamano) throws EventoNoEncontradoException {
+        Pageable pageable = PageRequest.of(pagina, tamano);
+        Page<Evento> eventosPaginados = eventoRepo.findAll(pageable);
+
+        if (eventosPaginados.isEmpty()) {
+            throw new EventoNoEncontradoException("No se encontraron eventos en la página solicitada.");
+        }
+
+        return eventosPaginados.stream()
                 .map(evento -> new ItemEventoDTO(
                         evento.getImagenPortada(),
                         evento.getNombre(),
