@@ -13,6 +13,7 @@ import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenYaCanceladaException;
 import co.edu.uniquindio.uniEventos.modelo.documentos.Carrito;
 import co.edu.uniquindio.uniEventos.modelo.vo.DetalleCarrito;
 import co.edu.uniquindio.uniEventos.servicios.implementacion.CarritoServicioImpl;
+import co.edu.uniquindio.uniEventos.servicios.implementacion.CuponServicioImpl;
 import co.edu.uniquindio.uniEventos.servicios.interfaces.OrdenServicio;
 import com.mercadopago.resources.preference.Preference;
 import jakarta.validation.Valid;
@@ -22,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class ClienteControlador {
 
     private final CarritoServicioImpl carritoServicio;
     private final OrdenServicio ordenServicio;
+    private  final CuponServicioImpl cuponServicio;
 
     // carrito/editar - item
 
@@ -111,5 +114,18 @@ public class ClienteControlador {
     public ResponseEntity<MensajeDTO<String>> eliminarItem(@PathVariable String id) throws Exception {
         carritoServicio.eliminarItem(id, "ID_EVENTO");
         return ResponseEntity.ok(new MensajeDTO<>(false,"Item eliminado correctamente"));
+    }
+
+    @PostMapping("/notificacion-pago")
+    public void recibirNotificacionMercadoPago(@RequestBody Map<String, Object> requestBody) {
+        ordenServicio.recibirNotificacionMercadoPago(requestBody);
+    }
+
+    @PostMapping("/redimir-cupon/{codigo}")
+    public ResponseEntity<MensajeDTO<String>> redimirCupon(@PathVariable String codigo) throws Exception {
+        boolean resultado = cuponServicio.redimirCupon(codigo);
+        return resultado
+                ? ResponseEntity.ok(new MensajeDTO<>(false, "Cupon redimido exitosamente"))
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MensajeDTO<>(true, "El cupon no pudo ser redimido"));
     }
 }
