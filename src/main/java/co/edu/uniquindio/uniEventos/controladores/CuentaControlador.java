@@ -1,7 +1,10 @@
 package co.edu.uniquindio.uniEventos.controladores;
 
 import co.edu.uniquindio.uniEventos.dto.*;
+import co.edu.uniquindio.uniEventos.excepciones.cuenta.CodigoValidacionNoEnviadoException;
+import co.edu.uniquindio.uniEventos.excepciones.cuenta.PasswordNoEditadaException;
 import co.edu.uniquindio.uniEventos.servicios.interfaces.CuentaServicio;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,10 +38,22 @@ public class CuentaControlador {
  entonces la url sería"/{id
      */
 
+    @Operation(summary = "Cambiar Contraseña", description = "Permite cambiar la contraseña")
+    @PostMapping("/cambiar-password")
+    public ResponseEntity<MensajeDTO<String>> cambiarPassword(@RequestBody CambiarPasswordDTO cambiarPasswordDTO) throws PasswordNoEditadaException {
+        return ResponseEntity.ok().body( new MensajeDTO<>(false, cuentaServicio.cambiarPassword(cambiarPasswordDTO)) );
+    }
+
     @PutMapping("/editar-perfil")
     public ResponseEntity<MensajeDTO<String>> editarCuenta(@Valid @RequestBody EditarCuentaDTO cuenta) throws Exception{
         cuentaServicio.editarCuenta(cuenta);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta editada exitosamente"));
+    }
+
+    @Operation(summary = "Enviar codigo", description = "Permite enviar codigo para cambiar la contraseña")
+    @PostMapping("/enviar-codigo/{correo}")
+    public ResponseEntity<MensajeDTO<String>> enviarCodigoCambioPassword(@PathVariable String correo) throws CodigoValidacionNoEnviadoException {
+        return ResponseEntity.ok().body( new MensajeDTO<>(false, cuentaServicio.enviarCodigoRecuperacionPassword(correo)) );
     }
 
     @DeleteMapping("/eliminar/{id}")
