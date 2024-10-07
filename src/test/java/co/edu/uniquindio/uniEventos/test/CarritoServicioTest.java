@@ -23,8 +23,8 @@ public class CarritoServicioTest {
     public void crearCarritoTest() throws CarritoNoCreadoException {
 
         List<DetalleCarrito> items = new ArrayList<>();
-        ObjectId objectUsuario = new ObjectId("66e5c4b6e1ef425df559016d");
-        ObjectId objectEvento = new ObjectId("66e5c4b6e1ef425df559016d");
+        ObjectId objectUsuario = new ObjectId("670229b4c4c96c516d6d0e02");
+        ObjectId objectEvento = new ObjectId("6703256265acee27386a5926");
         DetalleCarrito detalle = new DetalleCarrito(objectEvento, 4, "VIP");
         items.add(detalle);
         CrearCarritoDTO carritoDTO = new CrearCarritoDTO(

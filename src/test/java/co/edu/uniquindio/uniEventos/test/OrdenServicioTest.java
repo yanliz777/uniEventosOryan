@@ -213,7 +213,7 @@ public class OrdenServicioTest {
         ordenRepo.save(orden);
 
         // Llamar al metodo obtenerOrdenPorId
-        ObtenerOrdenDTO ordenDTO = ordenServicio.obtenerOrdenPorId("orden123");
+        ObtenerOrdenDTO ordenDTO = ordenServicio.obtenerOrden("orden123");
 
         // Verificar los datos de la orden
         Assertions.assertNotNull(ordenDTO);

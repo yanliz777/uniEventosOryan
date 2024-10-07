@@ -20,7 +20,7 @@ public interface OrdenServicio {
    
     String crearOrden(CrearOrdenDTO crearOrdenDTO) throws CuponNoEncontradoException, EventoNoEncontradoException, CuentaNoEncontradaException;
 
-    ObtenerOrdenDTO obtenerOrdenPorId(String idOrden) throws OrdenNoEncontradaException;
+    ObtenerOrdenDTO obtenerOrden(String idOrden) throws OrdenNoEncontradaException;
 
     String cancelarOrden(String idOrden) throws OrdenNoEncontradaException, OrdenYaCanceladaException, OrdenNoCancelableException;
 

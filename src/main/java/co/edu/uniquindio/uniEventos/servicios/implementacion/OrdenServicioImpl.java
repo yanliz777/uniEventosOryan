@@ -2,7 +2,6 @@ package co.edu.uniquindio.uniEventos.servicios.implementacion;
 
 import co.edu.uniquindio.uniEventos.dto.*;
 import co.edu.uniquindio.uniEventos.excepciones.CuponNoEncontradoException;
-import co.edu.uniquindio.uniEventos.servicios.implementacion.EventoServicioImpl;
 import co.edu.uniquindio.uniEventos.excepciones.EventoNoEncontradoException;
 import co.edu.uniquindio.uniEventos.excepciones.cuenta.CuentaNoEncontradaException;
 import co.edu.uniquindio.uniEventos.excepciones.orden.HistorialOrdenesVacionException;
@@ -10,7 +9,6 @@ import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenNoCancelableException
 import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenNoEncontradaException;
 import co.edu.uniquindio.uniEventos.excepciones.orden.OrdenYaCanceladaException;
 import co.edu.uniquindio.uniEventos.modelo.documentos.*;
-import co.edu.uniquindio.uniEventos.modelo.enums.EstadoCuenta;
 import co.edu.uniquindio.uniEventos.modelo.enums.EstadoOrden;
 import co.edu.uniquindio.uniEventos.modelo.vo.DetalleCarrito;
 import co.edu.uniquindio.uniEventos.modelo.vo.DetalleOrden;
@@ -38,7 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -166,7 +163,7 @@ public class OrdenServicioImpl implements OrdenServicio {
 
     
     @Override
-    public ObtenerOrdenDTO obtenerOrdenPorId(String idOrden) throws OrdenNoEncontradaException {
+    public ObtenerOrdenDTO obtenerOrden(String idOrden) throws OrdenNoEncontradaException {
         // Buscar la orden en el repositorio por su ID
         Optional<Orden> ordenOptional = ordenRepo.findById(idOrden);
 
@@ -263,7 +260,7 @@ public class OrdenServicioImpl implements OrdenServicio {
     @Override
     public Preference realizarPago(String idOrden) throws Exception {
 // Obtener la orden guardada en la base de datos y los ítems de la orden
-        Orden ordenGuardada = obtenerOrden(idOrden);
+        Orden ordenGuardada = obtenerOrdenPorId(idOrden);
         List<PreferenceItemRequest> itemsPasarela = new ArrayList<>();
 // Recorrer los items de la orden y crea los ítems de la pasarela
         for(DetalleOrden item : ordenGuardada.getItems()){
@@ -320,7 +317,7 @@ Tenemos que actualizar esta parte del código con la nueva URL cada vez que esto
     /*
  Metodo que me permite obtener una cuenta por su id:
    */
-    private Orden obtenerOrden(String id) throws Exception {
+    private Orden obtenerOrdenPorId(String id) throws Exception {
         Optional<Orden> optionalOrden = ordenRepo.findById(id);
 
         if(optionalOrden.isEmpty()){
@@ -355,7 +352,7 @@ la base de datos.
 // Obtener el id de la orden asociada al pago que viene en los metadatos
                 String idOrden = payment.getMetadata().get("id_orden").toString();
 // Se obtiene la orden guardada en la base de datos y se le asigna el pago
-                Orden orden = obtenerOrden(idOrden);
+                Orden orden = obtenerOrdenPorId(idOrden);
                 Pago pago = crearPago(payment);
                 orden.setPago(pago);
                 ordenRepo.save(orden);
