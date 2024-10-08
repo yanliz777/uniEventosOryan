@@ -75,7 +75,7 @@ public class ClienteControlador {
     }
 
    // /orden/historial/{idorden}
-   @GetMapping("/orden/historial/{idorden}")
+   @GetMapping("/orden/historial/{idUsuario}")
    public ResponseEntity<MensajeDTO<List<ItemOrdenDTO>>> historialOrdenes(@PathVariable String idUsuario) throws HistorialOrdenesVacionException, CuentaNoEncontradaException {
        List<ItemOrdenDTO> historial = ordenServicio.historialOrdenes(idUsuario);
        MensajeDTO<List<ItemOrdenDTO>> mensajeDTO = new MensajeDTO<>(false, historial);
