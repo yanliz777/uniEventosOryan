@@ -227,7 +227,7 @@ db.cupones.insertMany([
         descuento: 15,
         codigo: 'VER4NOKD34JHX1',
         fechaVencimiento: ISODate('2023-11-15T00:00:00.000Z'),
-        tipo: 'INDIVIDUAL',
+        tipo: 'UNICO',
         estado: 'DISPONIBLE',
         _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Cupon'
     },
@@ -257,7 +257,7 @@ db.cupones.insertMany([
         descuento: 50,
         codigo: 'HAL45XQJ9BWE2K',
         fechaVencimiento: ISODate('2023-10-31T00:00:00.000Z'),
-        tipo: 'INDIVIDUAL',
+        tipo: 'UNICO',
         estado: 'DISPONIBLE',
         _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Cupon'
     }
