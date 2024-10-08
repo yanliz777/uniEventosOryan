@@ -1,10 +1,9 @@
 package co.edu.uniquindio.uniEventos.controladores;
 
-import co.edu.uniquindio.uniEventos.dto.CrearCuentaDTO;
-import co.edu.uniquindio.uniEventos.dto.MensajeDTO;
-import co.edu.uniquindio.uniEventos.dto.TokenDTO;
-import co.edu.uniquindio.uniEventos.dto.LoginDTO;
+import co.edu.uniquindio.uniEventos.dto.*;
+import co.edu.uniquindio.uniEventos.excepciones.cuenta.PasswordNoEditadaException;
 import co.edu.uniquindio.uniEventos.servicios.interfaces.CuentaServicio;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +34,11 @@ public class AutenticacionControlador {
     public ResponseEntity<MensajeDTO<String>> crearCuenta(@Valid @RequestBody CrearCuentaDTO cuenta) throws Exception{
         cuentaServicio.crearCuenta(cuenta);
         return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta creada exitosamente"));
+    }
+
+    @Operation(summary = "Cambiar Contraseña", description = "Permite cambiar la contraseña")
+    @PostMapping("/cambiar-password")
+    public ResponseEntity<MensajeDTO<String>> cambiarPassword(@RequestBody CambiarPasswordDTO cambiarPasswordDTO) throws PasswordNoEditadaException {
+        return ResponseEntity.ok().body( new MensajeDTO<>(false, cuentaServicio.cambiarPassword(cambiarPasswordDTO)) );
     }
 }
