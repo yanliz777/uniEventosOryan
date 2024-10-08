@@ -16,6 +16,7 @@ import co.edu.uniquindio.uniEventos.servicios.implementacion.CarritoServicioImpl
 import co.edu.uniquindio.uniEventos.servicios.implementacion.CuponServicioImpl;
 import co.edu.uniquindio.uniEventos.servicios.interfaces.OrdenServicio;
 import com.mercadopago.resources.preference.Preference;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/cliente")
+@SecurityRequirement(name = "bearerAuth")
 public class ClienteControlador {
 
     private final CarritoServicioImpl carritoServicio;

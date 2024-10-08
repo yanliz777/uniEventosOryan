@@ -6,6 +6,7 @@ import co.edu.uniquindio.uniEventos.excepciones.EventoNoEditadoException;
 import co.edu.uniquindio.uniEventos.servicios.implementacion.CuponServicioImpl;
 import co.edu.uniquindio.uniEventos.servicios.interfaces.EventoServicio;
 import co.edu.uniquindio.uniEventos.servicios.interfaces.ImagenesServicio;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/admin")
+@SecurityRequirement(name = "bearerAuth")
 public class AdministradorControlador {
 
     private final EventoServicio eventoServicio;

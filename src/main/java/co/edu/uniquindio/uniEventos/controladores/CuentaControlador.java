@@ -5,6 +5,7 @@ import co.edu.uniquindio.uniEventos.excepciones.cuenta.CodigoValidacionNoEnviado
 import co.edu.uniquindio.uniEventos.excepciones.cuenta.PasswordNoEditadaException;
 import co.edu.uniquindio.uniEventos.servicios.interfaces.CuentaServicio;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/cuenta")
+@SecurityRequirement(name = "bearerAuth")
 public class CuentaControlador {
 
     private final CuentaServicio cuentaServicio;
