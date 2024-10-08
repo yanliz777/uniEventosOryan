@@ -45,7 +45,7 @@ public class EventoServicioImpl implements EventoServicio {
 
         Evento nuevoEvento = new Evento();
         nuevoEvento.setCiudad(crearEventoDTO.ciudad());
-        nuevoEvento.setImagenPortada(crearEventoDTO.imagenImportada());
+        nuevoEvento.setImagenPortada(crearEventoDTO.imagenPortada());
         nuevoEvento.setImagenLocalidades(crearEventoDTO.imagenLocalidades());
         nuevoEvento.setNombre(crearEventoDTO.nombre());
         nuevoEvento.setDescripcion(crearEventoDTO.descripcion());
@@ -63,23 +63,27 @@ public class EventoServicioImpl implements EventoServicio {
     @Override
     public String editarEvento(EditarEventoDTO editarEventoDTO) throws EventoNoEditadoException {
 
-        Evento eventoModificado = obtenerEvento(editarEventoDTO.id());
+        try {
+            Evento eventoModificado = obtenerEvento(editarEventoDTO.id());
 
-        if(editarEventoDTO.fechaEvento().isBefore(LocalDateTime.now())){
-            throw new EventoNoEditadoException("La nueva fecha ingresada para el evento debe ser mayor a la fecha actual");
+            if(editarEventoDTO.fechaEvento().isBefore(LocalDateTime.now())){
+                throw new EventoNoEditadoException("La nueva fecha ingresada para el evento debe ser mayor a la fecha actual");
+            }
+
+            eventoModificado.setImagenPortada(editarEventoDTO.imagenPortada());
+            eventoModificado.setImagenLocalidades(editarEventoDTO.imagenLocalidades());
+            eventoModificado.setDescripcion(editarEventoDTO.descripcion());
+            eventoModificado.setEstado(editarEventoDTO.estado());
+            eventoModificado.setDireccion(editarEventoDTO.direccion());
+            eventoModificado.setCiudad(editarEventoDTO.ciudad());
+            eventoModificado.setFechaEvento(editarEventoDTO.fechaEvento());
+            eventoModificado.setNombre(editarEventoDTO.nombre());
+
+            eventoRepo.save(eventoModificado);
+            return "Evento actualizado correctamente.";
+        } catch (Exception e){
+            throw new EventoNoEditadoException("El evento no fue actualizado. " + e.getMessage());
         }
-
-        eventoModificado.setImagenPortada(editarEventoDTO.imagenPortada());
-        eventoModificado.setImagenLocalidades(editarEventoDTO.imagenLocalidades());
-        eventoModificado.setDescripcion(editarEventoDTO.descripcion());
-        eventoModificado.setEstado(editarEventoDTO.estado());
-        eventoModificado.setDireccion(editarEventoDTO.direccion());
-        eventoModificado.setCiudad(editarEventoDTO.ciudad());
-        eventoModificado.setFechaEvento(editarEventoDTO.fechaEvento());
-        eventoModificado.setNombre(editarEventoDTO.nombre());
-
-        eventoRepo.save(eventoModificado);
-        return eventoModificado.getId();
     }
 
     @Override

@@ -83,7 +83,7 @@ public class CuponServicioImpl implements CuponServicio {
             cuponEliminado.setEstado( EstadoCupon.ELIMINADO );
             cuponRepo.save(cuponEliminado);
 
-            return cuponEliminado.getId();
+            return "El cupon fue eliminado correctamente.";
         } catch (Exception e){
             throw new CuponNoEliminadoException("El cupón no pudo ser eliminado " + e.getMessage() );
         }

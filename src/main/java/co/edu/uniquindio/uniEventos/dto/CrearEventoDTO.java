@@ -12,7 +12,7 @@ import java.util.List;
 
 public record CrearEventoDTO(
         @NotBlank @Length (max = 20) String ciudad,
-        @NotBlank String imagenImportada,
+        @NotBlank String imagenPortada,
         @NotBlank String imagenLocalidades,
         @NotBlank @Length (min = 5, max = 100) String nombre,
         @NotBlank @Length(max = 500) String descripcion,

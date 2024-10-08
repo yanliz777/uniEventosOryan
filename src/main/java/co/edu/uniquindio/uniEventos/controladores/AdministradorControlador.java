@@ -91,8 +91,8 @@ public class AdministradorControlador {
     }
 
     @DeleteMapping("/imagen/eliminar")
-    public ResponseEntity<MensajeDTO<String>> eliminar(@RequestParam("idImagen") String idImagen) throws Exception{
-        imagenesServicio.eliminarImagen( idImagen );
+    public ResponseEntity<MensajeDTO<String>> eliminar(@RequestParam("nombreImagen") String nombreImagen) throws Exception{
+        imagenesServicio.eliminarImagen( nombreImagen );
         return ResponseEntity.ok().body(new MensajeDTO<>(false, "La imagen fue eliminada " +
                 "correctamente"));
     }

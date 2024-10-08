@@ -377,16 +377,16 @@ la base de datos.
         }
 
         // Obtener las órdenes del usuario
-        List<Orden> ordenes = ordenRepo.findByIdCliente(new ObjectId(idUsuario));
+        Optional<List<Orden>> ordenes = ordenRepo.findByCodigoCliente(idUsuario);
 
-        if (ordenes.isEmpty()) {
+        if (ordenes.isEmpty() || ordenes.get().isEmpty()) {
             throw new HistorialOrdenesVacionException("El usuario no tiene órdenes registradas");
         }
 
         // Crear lista de resúmenes de órdenes
         List<ItemOrdenDTO> historial = new ArrayList<>();
 
-        for (Orden orden : ordenes) {
+        for (Orden orden : ordenes.get()) {
             // Lista para almacenar los detalles de la orden convertidos
             List<DetalleOrdenResumenDTO> detallesResumen = new ArrayList<>();
 

@@ -7,13 +7,13 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrdenRepo extends MongoRepository<Orden,String> {
 
-    @Query("{ 'idCliente' : ?0 }")
-    List<Orden> findByIdCliente(ObjectId idCliente);
+    Optional<List<Orden>> findByCodigoCliente(String codigoCliente);
 
     @Query("{ 'idCliente' : ?0 }")
-    List<Orden> findAllByIdCliente(ObjectId idCliente);
+    Optional<List<Orden>> findAllByIdCliente(ObjectId idCliente);
 }
