@@ -36,9 +36,4 @@ public class AutenticacionControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, "Cuenta creada exitosamente"));
     }
 
-    @Operation(summary = "Cambiar Contraseña", description = "Permite cambiar la contraseña")
-    @PostMapping("/cambiar-password")
-    public ResponseEntity<MensajeDTO<String>> cambiarPassword(@RequestBody CambiarPasswordDTO cambiarPasswordDTO) throws PasswordNoEditadaException {
-        return ResponseEntity.ok().body( new MensajeDTO<>(false, cuentaServicio.cambiarPassword(cambiarPasswordDTO)) );
-    }
 }
