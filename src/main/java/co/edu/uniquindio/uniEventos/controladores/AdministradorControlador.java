@@ -40,7 +40,7 @@ public class AdministradorControlador {
         return ResponseEntity.ok().body(new MensajeDTO<>(false, respuesta));
     }
 
-    @PostMapping("/event/crear")
+    @PostMapping("/evento/crear")
     public ResponseEntity<MensajeDTO<String>> crearEvento(@Valid @RequestBody CrearEventoDTO crearEventoDTO){
         try {
             eventoServicio.crearEvento(crearEventoDTO);
@@ -77,14 +77,14 @@ public class AdministradorControlador {
                 eventoServicio.listarEventosPaginados(pagina, tamano)));
     }
 
-    @GetMapping("/obtener-informacion/{id}")
+    @GetMapping("/cupon/obtener-informacion/{id}")
     public ResponseEntity<MensajeDTO<InformacionCuponDTO>> obtenerInformacionCupon(@PathVariable String id) throws Exception {
         // TODO PENDIENTE DE MODIFICAR PARA OBTENER EL CUPON POR EL CODIGO DE CUPON Y NO POR EL ID
         InformacionCuponDTO cuponInfo = cuponServicio.obtenerInformacionCupon(id);
         return ResponseEntity.ok(new MensajeDTO<>(false, cuponInfo));
     }
 
-    @GetMapping("/obtener-todos")
+    @GetMapping("/cupon/obtener-todos")
     public ResponseEntity<MensajeDTO<List<ItemCuponDTO>>> listarCuponesActivos() throws Exception {
         List<ItemCuponDTO> cupones = cuponServicio.listarCuponesDisponibles();
         return ResponseEntity.ok(new MensajeDTO<>(false, cupones));
