@@ -17,7 +17,7 @@ db.cuentas.insertMany([
         fechaRegistro: ISODate('2024-10-07T21:41:57.849Z'),
         password: '$2a$10$I2DJHVvWz15i9wim5lvrbOdu2CYTRMduW8clipylgL6yfwJuiZzx6',
         estado: 'INACTIVO',
-        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Cuenta'
     },
     {
         _id: ObjectId('66a2b9bbb8620e3c1c5437bf'),
@@ -32,7 +32,7 @@ db.cuentas.insertMany([
         fechaRegistro: ISODate('2024-09-25T14:30:22.123Z'),
         password: '$2a$10$I2DJHVvWz15i9wim5lvrbOdu2CYTRMduW8clipylgL6yfwJuiZzx6',
         estado: 'ACTIVO',
-        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Cuenta'
     },
     {
         _id: ObjectId('66a2c9ccc8620e3c1c5437c0'),
@@ -51,7 +51,7 @@ db.cuentas.insertMany([
         fechaRegistro: ISODate('2024-08-30T11:20:45.500Z'),
         password: '$2a$10$I2DJHVvWz15i9wim5lvrbOdu2CYTRMduW8clipylgL6yfwJuiZzx6',
         estado: 'INACTIVO',
-        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Cuenta'
     },
     {
         _id: ObjectId('66a2d9ddd8620e3c1c5437c1'),
@@ -66,7 +66,7 @@ db.cuentas.insertMany([
         fechaRegistro: ISODate('2024-07-18T09:15:33.254Z'),
         password: '$2a$10$I2DJHVvWz15i9wim5lvrbOdu2CYTRMduW8clipylgL6yfwJuiZzx6',
         estado: 'ACTIVO',
-        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Cuenta'
     },
     {
         _id: ObjectId('66a2e9eee8620e3c1c5437c2'),
@@ -85,7 +85,7 @@ db.cuentas.insertMany([
         fechaRegistro: ISODate('2024-06-15T13:45:00.789Z'),
         password: '$2a$10$I2DJHVvWz15i9wim5lvrbOdu2CYTRMduW8clipylgL6yfwJuiZzx6',
         estado: 'INACTIVO',
-        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Cuenta'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Cuenta'
     }
 ]);
 db.eventos.insertMany([
@@ -116,7 +116,7 @@ db.eventos.insertMany([
         ],
         tipo: 'CONCIERTO',
         fechaEvento: ISODate('2024-11-11T01:00:00.000Z'),
-        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Evento'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Evento'
     },
     {
         _id: ObjectId('66a3d123991cff088eb80b12'),
@@ -140,7 +140,7 @@ db.eventos.insertMany([
         ],
         tipo: 'BELLEZA',
         fechaEvento: ISODate('2024-12-01T10:00:00.000Z'),
-        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Evento'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Evento'
     },
     {
         _id: ObjectId('66a3e124991cff088eb80b13'),
@@ -164,7 +164,7 @@ db.eventos.insertMany([
         ],
         tipo: 'CULTURAL',
         fechaEvento: ISODate('2024-10-25T19:00:00.000Z'),
-        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Evento'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Evento'
     },
     {
         _id: ObjectId('66a3f235991cff088eb80b14'),
@@ -183,7 +183,7 @@ db.eventos.insertMany([
         ],
         tipo: 'DEPORTE',
         fechaEvento: ISODate('2024-09-15T06:00:00.000Z'),
-        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Evento'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Evento'
     },
     {
         _id: ObjectId('66a3g456991cff088eb80b15'),
@@ -207,7 +207,7 @@ db.eventos.insertMany([
         ],
         tipo: 'MODA',
         fechaEvento: ISODate('2024-11-30T18:00:00.000Z'),
-        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Evento'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Evento'
     }
 ]);
 db.cupones.insertMany([
@@ -219,7 +219,7 @@ db.cupones.insertMany([
         fechaVencimiento: ISODate('2023-12-01T00:00:00.000Z'),
         tipo: 'MULTIPLE',
         estado: 'DISPONIBLE',
-        _class: 'co.edu.uniquindio.eventos.modelo.documentos.Cupon'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Cupon'
     },
     {
         _id: ObjectId('66e6d2a1bc42fd7a8e7e82a4'),
@@ -229,7 +229,7 @@ db.cupones.insertMany([
         fechaVencimiento: ISODate('2023-11-15T00:00:00.000Z'),
         tipo: 'INDIVIDUAL',
         estado: 'DISPONIBLE',
-        _class: 'co.edu.uniquindio.eventos.modelo.documentos.Cupon'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Cupon'
     },
     {
         _id: ObjectId('66e6d3b2bc42fd7a8e7e82a5'),
@@ -239,7 +239,7 @@ db.cupones.insertMany([
         fechaVencimiento: ISODate('2023-10-30T00:00:00.000Z'),
         tipo: 'MULTIPLE',
         estado: 'ELIMINADO',
-        _class: 'co.edu.uniquindio.eventos.modelo.documentos.Cupon'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Cupon'
     },
     {
         _id: ObjectId('66e6d4c3bc42fd7a8e7e82a6'),
@@ -249,7 +249,7 @@ db.cupones.insertMany([
         fechaVencimiento: ISODate('2023-12-05T00:00:00.000Z'),
         tipo: 'MULTIPLE',
         estado: 'DISPONIBLE',
-        _class: 'co.edu.uniquindio.eventos.modelo.documentos.Cupon'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Cupon'
     },
     {
         _id: ObjectId('66e6d5d4bc42fd7a8e7e82a7'),
@@ -259,7 +259,7 @@ db.cupones.insertMany([
         fechaVencimiento: ISODate('2023-10-31T00:00:00.000Z'),
         tipo: 'INDIVIDUAL',
         estado: 'DISPONIBLE',
-        _class: 'co.edu.uniquindio.eventos.modelo.documentos.Cupon'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Cupon'
     }
 ]);
 db.carritos.insertMany([
@@ -274,7 +274,7 @@ db.carritos.insertMany([
                 nombreLocalidad: "PLATEA"
             }
         ],
-        _class: 'co.edu.uniquindio.eventos.modelo.documentos.Carrito'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Carrito'
     },
     {
         _id: ObjectId('66eef2d637310828425bbe11'),
@@ -292,7 +292,7 @@ db.carritos.insertMany([
                 nombreLocalidad: "VIP"
             }
         ],
-        _class: 'co.edu.uniquindio.eventos.modelo.documentos.Carrito'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Carrito'
     },
     {
         _id: ObjectId('66eef3e137310828425bbe12'),
@@ -305,7 +305,7 @@ db.carritos.insertMany([
                 nombreLocalidad: "BALCÓN"
             }
         ],
-        _class: 'co.edu.uniquindio.eventos.modelo.documentos.Carrito'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Carrito'
     },
     {
         _id: ObjectId('66eef4f737310828425bbe13'),
@@ -318,7 +318,7 @@ db.carritos.insertMany([
                 nombreLocalidad: "GENERAL"
             }
         ],
-        _class: 'co.edu.uniquindio.eventos.modelo.documentos.Carrito'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Carrito'
     }
 ]);
 db.ordenes.insertMany([
@@ -343,6 +343,6 @@ db.ordenes.insertMany([
             estado: 'APROBADA',
             metodoPago: 'TARJETA DE CRÉDITO'
         },
-        _class: 'co.edu.uniquindio.proyecto.modelo.documentos.Orden'
+        _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Orden'
     }
 ]);

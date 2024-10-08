@@ -66,7 +66,7 @@ public class ClienteControlador {
     }
 
     // orden/obtener/{idorden}
-    @PostMapping("/orden/obtener/{id}")
+    @GetMapping("/orden/obtener/{id}")
     public ResponseEntity<MensajeDTO<ObtenerOrdenDTO>> obtenerOrden(@PathVariable String id) throws Exception {
         ObtenerOrdenDTO orden = ordenServicio.obtenerOrden(id);
         return ResponseEntity.ok(new MensajeDTO<>(false, orden));
