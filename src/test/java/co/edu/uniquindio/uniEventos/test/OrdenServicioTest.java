@@ -189,7 +189,7 @@ public class OrdenServicioTest {
         // Simular una orden guardada en la base de datos
         Orden orden = new Orden();
         orden.setId("orden123");
-        orden.setIdCliente(new ObjectId("cliente123"));
+        orden.setCodigoCliente(new ObjectId("cliente123"));
         orden.setFecha(LocalDateTime.now());
         orden.setCodigoPasarela("pasarela123");
         orden.setTotal(200.0f);
@@ -204,7 +204,7 @@ public class OrdenServicioTest {
         orden.setPago(pago);
 
         DetalleOrden detalle = new DetalleOrden();
-        detalle.setIdEvento(new ObjectId("evento123"));
+        detalle.setCodigoEvento(new ObjectId("evento123"));
         detalle.setNombreLocalidad("VIP");
         detalle.setCantidad(2);
         detalle.setPrecio(100.0f);
@@ -234,7 +234,7 @@ public class OrdenServicioTest {
         // Simular una orden guardada en la base de datos
         Orden orden = new Orden();
         orden.setId("orden123");
-        orden.setIdCliente(new ObjectId("cliente123"));
+        orden.setCodigoCliente(new ObjectId("cliente123"));
         orden.setFecha(LocalDateTime.now());
         orden.setEstado(EstadoOrden.ACTIVA);
 
@@ -248,7 +248,7 @@ public class OrdenServicioTest {
         orden.setPago(pago);
 
         DetalleOrden detalle = new DetalleOrden();
-        detalle.setIdEvento(new ObjectId("evento123"));
+        detalle.setCodigoEvento(new ObjectId("evento123"));
         detalle.setNombreLocalidad("VIP");
         detalle.setCantidad(2);
         detalle.setPrecio(100.0f);
@@ -293,14 +293,14 @@ public class OrdenServicioTest {
         eventoRepo.save(evento);
 
         DetalleOrden detalle = new DetalleOrden();
-        detalle.setIdEvento(new ObjectId("eventoProximo"));
+        detalle.setCodigoEvento(new ObjectId("eventoProximo"));
         detalle.setNombreLocalidad("General");
         detalle.setCantidad(1);
         detalle.setPrecio(50.0f);
 
         Orden orden = new Orden();
         orden.setId("ordenProxima");
-        orden.setIdCliente(new ObjectId("cliente123"));
+        orden.setCodigoCliente(new ObjectId("cliente123"));
         orden.setFecha(LocalDateTime.now());
         orden.setItems(List.of(detalle));
         orden.setEstado(EstadoOrden.ACTIVA);

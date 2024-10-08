@@ -113,7 +113,7 @@ public class OrdenServicioImpl implements OrdenServicio {
 
             // Crear el detalle de la orden
             DetalleOrden detalleOrden = new DetalleOrden();
-            detalleOrden.setIdEvento(new ObjectId(itemCarrito.getIdEvento().toString()));
+            detalleOrden.setCodigoEvento(new ObjectId(itemCarrito.getIdEvento().toString()));
             detalleOrden.setNombreLocalidad(itemCarrito.getNombreLocalidad());
             detalleOrden.setCantidad(itemCarrito.getCantidad());
             detalleOrden.setPrecio(localidadSeleccionada.getPrecio());  // Precio tomado de la localidad
@@ -136,7 +136,7 @@ public class OrdenServicioImpl implements OrdenServicio {
 
         // Crear la orden
         Orden nuevaOrden = new Orden();
-        nuevaOrden.setIdCliente(new ObjectId(crearOrdenDTO.idCliente()));
+        nuevaOrden.setCodigoCliente(new ObjectId(crearOrdenDTO.idCliente()));
         nuevaOrden.setFecha(LocalDateTime.now());
         nuevaOrden.setCodigoPasarela(crearOrdenDTO.codigoPasarela());
         nuevaOrden.setItems(detalles);
@@ -161,7 +161,7 @@ public class OrdenServicioImpl implements OrdenServicio {
         return total - descuento;
     }
 
-    
+
     @Override
     public ObtenerOrdenDTO obtenerOrden(String idOrden) throws OrdenNoEncontradaException {
         // Buscar la orden en el repositorio por su ID
@@ -177,21 +177,25 @@ public class OrdenServicioImpl implements OrdenServicio {
         // Convertir la lista de DetalleOrden a DetalleOrdenDTO
         List<DetalleOrdenDTO> detallesDTO = new ArrayList<>();
 
-        for (DetalleOrden detalle : orden.getItems()) {
-
-            DetalleOrdenDTO detalleDTO = new DetalleOrdenDTO(
-                    detalle.getIdEvento().toString(),
-                    detalle.getNombreLocalidad(),
-                    detalle.getCantidad(),
-                    detalle.getPrecio()
-            );
-            detallesDTO.add(detalleDTO);
+        if (orden.getItems() != null) { // Verifica si items es null antes de iterar
+            for (DetalleOrden detalle : orden.getItems()) {
+                DetalleOrdenDTO detalleDTO = new DetalleOrdenDTO(
+                        detalle.getCodigoEvento().toString(),
+                        detalle.getNombreLocalidad(),
+                        detalle.getCantidad(),
+                        detalle.getPrecio()
+                );
+                detallesDTO.add(detalleDTO);
+            }
+        } else {
+            // Si items es null, lanza una excepción o maneja el caso como mejor se adapte a tu lógica de negocio
+            throw new OrdenNoEncontradaException("La orden no contiene items.");
         }
 
         // Retornar el DTO con la información relevante
         return new ObtenerOrdenDTO(
                 orden.getId(),
-                orden.getIdCliente().toString(),
+                orden.getCodigoCliente().toString(),
                 orden.getFecha(),
                 orden.getCodigoPasarela(),
                 detallesDTO,
@@ -205,8 +209,8 @@ public class OrdenServicioImpl implements OrdenServicio {
                         orden.getPago().getEstado()
                 )
         );
-
     }
+
 
 
     @Override
@@ -229,7 +233,7 @@ public class OrdenServicioImpl implements OrdenServicio {
         // Verificar si la fecha del evento asociado es mayor a dos días antes del evento
         for (DetalleOrden detalle : orden.getItems()) {
 
-            Optional<Evento> eventoOptional = eventoRepo.findById(detalle.getIdEvento().toString());
+            Optional<Evento> eventoOptional = eventoRepo.findById(detalle.getCodigoEvento().toString());
 
             if (!eventoOptional.isPresent()) {
                 throw new RuntimeException("Evento no encontrado");
@@ -389,18 +393,18 @@ la base de datos.
             // Iterar sobre cada detalle de la orden
             for (DetalleOrden detalle : orden.getItems()) {
                 // Obtener el evento correspondiente al detalle
-                Optional<Evento> eventoOptional = eventoRepo.findById(detalle.getIdEvento().toString());
+                Optional<Evento> eventoOptional = eventoRepo.findById(detalle.getCodigoEvento().toString());
 
                 // Verificar si el evento existe
                 if (eventoOptional.isEmpty()) {
-                    throw new EventoNoEncontradoException("Evento no encontrado para el ID: " + detalle.getIdEvento());
+                    throw new EventoNoEncontradoException("Evento no encontrado para el ID: " + detalle.getCodigoEvento());
                 }
 
                 Evento evento = eventoOptional.get();
 
                 // Crear un nuevo DetalleOrdenResumenDTO y añadirlo a la lista
                 DetalleOrdenResumenDTO detalleResumen = new DetalleOrdenResumenDTO(
-                        detalle.getIdEvento().toString(),
+                        detalle.getCodigoEvento().toString(),
                         evento.getNombre(),
                         detalle.getNombreLocalidad(),
                         detalle.getCantidad(),
@@ -422,7 +426,7 @@ la base de datos.
 
             ItemOrdenDTO itemOrden = new ItemOrdenDTO(
                     orden.getId().toString(),
-                    orden.getIdCliente().toString(),
+                    orden.getCodigoCliente().toString(),
                     orden.getFecha(),
                     orden.getCodigoPasarela(),
                     idCupon,

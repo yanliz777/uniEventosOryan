@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Document("ordenes")
@@ -22,11 +23,11 @@ public class Orden {
     @EqualsAndHashCode.Include
     private String id;
 
-    private ObjectId idCliente;
+    private ObjectId codigoCliente;
     private LocalDateTime fecha;
     private String codigoPasarela;
     private ObjectId idCupon;
-    private List<DetalleOrden> items;
+    private List<DetalleOrden> items = new ArrayList<>();;
     private float total;
     private EstadoOrden estado;
     private Pago pago;
