@@ -1,9 +1,6 @@
 package co.edu.uniquindio.uniEventos.controladores;
 
-import co.edu.uniquindio.uniEventos.dto.CrearOrdenDTO;
-import co.edu.uniquindio.uniEventos.dto.ItemOrdenDTO;
-import co.edu.uniquindio.uniEventos.dto.MensajeDTO;
-import co.edu.uniquindio.uniEventos.dto.ObtenerOrdenDTO;
+import co.edu.uniquindio.uniEventos.dto.*;
 import co.edu.uniquindio.uniEventos.excepciones.*;
 import co.edu.uniquindio.uniEventos.excepciones.cuenta.CuentaNoEncontradaException;
 import co.edu.uniquindio.uniEventos.excepciones.orden.HistorialOrdenesVacionException;
@@ -35,12 +32,20 @@ public class ClienteControlador {
     private final CarritoServicioImpl carritoServicio;
     private final OrdenServicio ordenServicio;
     private  final CuponServicioImpl cuponServicio;
+    
+    @PutMapping("/carrito/editarItem/{idCarrito}")
+    public ResponseEntity<MensajeDTO<String>> editarItem(
+            @PathVariable String idCarrito,
+            @RequestParam("idEvento") String idEvento,
+            @RequestBody DetalleCarritoDTO detalleActualizado) throws Exception {
 
-    // carrito/editar - item
+        carritoServicio.editarItem(idCarrito, idEvento, detalleActualizado);
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Item actualizado correctamente"));
+    }
 
-    @PostMapping("/carrito/agregarItem/{id}")
-    public ResponseEntity<MensajeDTO<String>> agregarItem(@RequestBody DetalleCarrito item) throws Exception {
-        carritoServicio.agregarItem("ID_CARRITO", item);
+    @PostMapping("/carrito/agregarItem/{idCarrito}")
+    public ResponseEntity<MensajeDTO<String>> agregarItem(@RequestBody DetalleCarritoDTO item) throws Exception {
+        carritoServicio.agregarItem("idCarrito", item);
         return ResponseEntity.ok(new MensajeDTO<>(false,"Item agregado correctamente"));
     }
 
@@ -112,19 +117,21 @@ public class ClienteControlador {
         }
     }
 
-    @DeleteMapping("/eliminarItem/{id}")
-    public ResponseEntity<MensajeDTO<String>> eliminarItem(@PathVariable String id) throws Exception {
-        carritoServicio.eliminarItem(id, "ID_EVENTO");
-        return ResponseEntity.ok(new MensajeDTO<>(false,"Item eliminado correctamente"));
+    @DeleteMapping("/carrito/eliminarItem/{idCarrito}")
+    public ResponseEntity<MensajeDTO<String>> eliminarItem(
+            @PathVariable String idCarrito,
+            @RequestParam("idEvento") String idEvento) throws Exception {
+        carritoServicio.eliminarItem(idCarrito, idEvento);
+        return ResponseEntity.ok(new MensajeDTO<>(false, "Item eliminado correctamente"));
     }
 
-    @PostMapping("/notificacion-pago")
+    @PostMapping("/orden/notificacion-pago")
     public void recibirNotificacionMercadoPago(@RequestBody Map<String, Object> requestBody) {
         ordenServicio.recibirNotificacionMercadoPago(requestBody);
     }
 
-    @PostMapping("/redimir-cupon/{codigo}")
-    public ResponseEntity<MensajeDTO<String>> redimirCupon(@PathVariable String codigo) throws Exception {
+    @PostMapping("/cupon/redimir")
+    public ResponseEntity<MensajeDTO<String>> redimirCupon(@RequestBody String codigo) throws Exception {
         boolean resultado = cuponServicio.redimirCupon(codigo);
         return resultado
                 ? ResponseEntity.ok(new MensajeDTO<>(false, "Cupon redimido exitosamente"))
