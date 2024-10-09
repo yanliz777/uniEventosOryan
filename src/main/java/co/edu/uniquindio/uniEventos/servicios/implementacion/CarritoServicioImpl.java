@@ -1,5 +1,6 @@
 package co.edu.uniquindio.uniEventos.servicios.implementacion;
 
+import co.edu.uniquindio.uniEventos.dto.DetalleCarritoDTO;
 import co.edu.uniquindio.uniEventos.excepciones.CarritoNoCreadoException;
 import co.edu.uniquindio.uniEventos.excepciones.CarritoNoEncontradoException;
 import co.edu.uniquindio.uniEventos.modelo.documentos.Carrito;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,15 +46,33 @@ public class CarritoServicioImpl implements CarritoServicio {
 
     @Override
     public String eliminarItem(String idCarrito, String idEvento) throws Exception {
-        Carrito carrito = carritoRepo.findById(idCarrito).orElseThrow(() -> new Exception("Carrito no encontrado"));
-        carritoRepo.delete(carrito);
+        Carrito carrito = carritoRepo.findById(idCarrito)
+                .orElseThrow(() -> new Exception("Carrito no encontrado"));
+
+        List<DetalleCarrito> itemsActualizados = carrito.getItems().stream()
+                .filter(item -> !item.getIdEvento().toString().equals(idEvento))
+                .collect(Collectors.toList());
+
+        if (itemsActualizados.size() == carrito.getItems().size()) {
+            throw new Exception("Evento no encontrado en el carrito");
+        }
+
+        carrito.setItems(itemsActualizados);
+        carritoRepo.save(carrito);
+
         return "Item eliminado correctamente";
     }
 
     @Override
-    public void agregarItem(String idCarrito, DetalleCarrito item) throws Exception {
+    public void agregarItem(String idCarrito, DetalleCarritoDTO itemDTO) throws Exception {
         Carrito carrito = carritoRepo.findById(idCarrito)
                 .orElseThrow(() -> new Exception("Carrito no encontrado"));
+
+        DetalleCarrito item = new DetalleCarrito(
+                itemDTO.idEvento(),
+                itemDTO.cantidad(),
+                itemDTO.nombreLocalidad()
+        );
 
         carrito.getItems().add(item);
 
@@ -60,10 +80,39 @@ public class CarritoServicioImpl implements CarritoServicio {
     }
 
     @Override
+    public String editarItem(String idCarrito, String idEvento, DetalleCarritoDTO detalleActualizado) throws Exception {
+        Carrito carrito = carritoRepo.findById(idCarrito)
+                .orElseThrow(() -> new Exception("Carrito no encontrado"));
+
+        // Encontrar el item que necesita ser actualizado
+        boolean itemEncontrado = false;
+
+        for (DetalleCarrito item : carrito.getItems()) {
+            if (item.getIdEvento().toString().equals(idEvento)) {
+                // Actualizar las propiedades del item con la información del detalleActualizado
+                item.setCantidad(detalleActualizado.cantidad());
+                item.setNombreLocalidad(detalleActualizado.nombreLocalidad());
+                itemEncontrado = true;
+                break;
+            }
+        }
+
+        // Si no se encontró el item, lanzar una excepción
+        if (!itemEncontrado) {
+            throw new Exception("Evento no encontrado en el carrito");
+        }
+
+        // Guardar los cambios en el repositorio
+        carritoRepo.save(carrito);
+
+        return "Item actualizado correctamente";
+    }
+
+    @Override
     public Carrito obtenerCarritoUsuario(String idUsuario) throws CarritoNoEncontradoException {
         try {
 
-            Optional<Carrito> carritoBuscado = carritoRepo.findByIdUsuario(idUsuario);
+            Optional<Carrito> carritoBuscado = carritoRepo.findById(idUsuario);
 
             if(carritoBuscado.isEmpty()){
                 throw new CarritoNoEncontradoException("El carrito no fue encontrado. ");

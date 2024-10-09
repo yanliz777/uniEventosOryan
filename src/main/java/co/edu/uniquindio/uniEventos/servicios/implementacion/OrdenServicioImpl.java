@@ -63,7 +63,7 @@ public class OrdenServicioImpl implements OrdenServicio {
         Cuenta cuenta = cuentaOptional.get();
 
         // Buscar el carrito del cliente usando su ID
-        Optional<Carrito> carritoOptional = carritoRepo.findByIdUsuario(crearOrdenDTO.idCliente());
+        Optional<Carrito> carritoOptional = carritoRepo.findById(crearOrdenDTO.idCliente());
 
         if (carritoOptional.isEmpty()) {
             throw new RuntimeException("No se encontró un carrito asociado a este cliente.");

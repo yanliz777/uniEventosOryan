@@ -86,7 +86,6 @@ public class OrdenServicioTest {
 
         // 4. Simular la creación de la orden
         CrearOrdenDTO crearOrdenDTO = new CrearOrdenDTO(
-                "orden123",
                 "COP",
                 cuenta.getId(),
                 LocalDateTime.now(),
@@ -115,7 +114,6 @@ public class OrdenServicioTest {
     public void crearOrdenConCarritoInexistenteTest() {
         // Simular la creación de una orden con un carrito inexistente
         CrearOrdenDTO crearOrdenDTO = new CrearOrdenDTO(
-                "orden123",
                 "COP",
                 "cliente123",
                 LocalDateTime.now(),
@@ -158,7 +156,6 @@ public class OrdenServicioTest {
         carritoRepo.save(carrito);
 
         CrearOrdenDTO crearOrdenDTO = new CrearOrdenDTO(
-                "orden123",
                 "COP",
                 "cliente123",
                 LocalDateTime.now(),

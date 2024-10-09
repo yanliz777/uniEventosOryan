@@ -196,10 +196,10 @@ public class CuponServicioImpl implements CuponServicio {
         return obtenerItemsCuponesDTO(cuponesDisponibles);
     }
 
-    public Cupon obtenerCupon( String id ) throws CuponNoEncontradoException {
-        Optional<Cupon> cupon = cuponRepo.findById( id );
+    public Cupon obtenerCupon( String codigo ) throws CuponNoEncontradoException {
+        Optional<Cupon> cupon = cuponRepo.findByCodigo( codigo );
         if( cupon.isEmpty() ){
-            throw new CuponNoEncontradoException("El cupón con el id "+ id + " no fue encontrado");
+            throw new CuponNoEncontradoException("El cupón con el codigo "+ codigo + " no fue encontrado");
         }
 
         return cupon.get();
