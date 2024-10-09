@@ -283,7 +283,7 @@ public class CuentaServicioImpl implements CuentaServicio {
                     equals(cambiarPasswordDTO.codigoVerificacion()))
             {
                 if(codigoValidacion.getFechaCreacion().
-                        plusMinutes(15).isBefore(LocalDateTime.now()))
+                        plusMinutes(15).isAfter(LocalDateTime.now()))
                 {
                     cuenta.setPassword(cambiarPasswordDTO.passwordNueva());
                     cuentaRepo.save(cuenta);
