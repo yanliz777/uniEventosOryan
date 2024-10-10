@@ -44,8 +44,8 @@ public class ClienteControlador {
     }
 
     @PostMapping("/carrito/agregarItem/{idCarrito}")
-    public ResponseEntity<MensajeDTO<String>> agregarItem(@RequestBody DetalleCarritoDTO item) throws Exception {
-        carritoServicio.agregarItem("idCarrito", item);
+    public ResponseEntity<MensajeDTO<String>> agregarItem(@PathVariable String idCarrito, @RequestBody DetalleCarritoDTO item) throws Exception {
+        carritoServicio.agregarItem(idCarrito, item);
         return ResponseEntity.ok(new MensajeDTO<>(false,"Item agregado correctamente"));
     }
 
@@ -131,7 +131,7 @@ public class ClienteControlador {
     }
 
     @PostMapping("/cupon/redimir")
-    public ResponseEntity<MensajeDTO<String>> redimirCupon(@RequestBody String codigo) throws Exception {
+    public ResponseEntity<MensajeDTO<String>> redimirCupon(@RequestParam String codigo) throws Exception {
         boolean resultado = cuponServicio.redimirCupon(codigo);
         return resultado
                 ? ResponseEntity.ok(new MensajeDTO<>(false, "Cupon redimido exitosamente"))
