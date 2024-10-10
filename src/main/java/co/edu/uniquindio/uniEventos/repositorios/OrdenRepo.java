@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface OrdenRepo extends MongoRepository<Orden,String> {
 
-    Optional<List<Orden>> findByCodigoCliente(String codigoCliente);
+    Optional<List<Orden>> findByCodigoCliente(ObjectId codigoCliente);
 
     @Query("{ 'idCliente' : ?0 }")
     Optional<List<Orden>> findAllByIdCliente(ObjectId idCliente);

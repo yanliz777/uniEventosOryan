@@ -343,6 +343,7 @@ db.ordenes.insertMany([
             estado: 'APROBADA',
             metodoPago: 'TARJETA DE CRÉDITO'
         },
+        estado: "ACTIVA",
         _class: 'co.edu.uniquindio.uniEventos.modelo.documentos.Orden'
     }
 ]);

@@ -65,8 +65,11 @@ public class CarritoServicioImpl implements CarritoServicio {
 
     @Override
     public void agregarItem(String idCarrito, DetalleCarritoDTO itemDTO) throws Exception {
-        Carrito carrito = carritoRepo.findById(idCarrito)
-                .orElseThrow(() -> new Exception("Carrito no encontrado"));
+        Optional<Carrito> carrito = carritoRepo.findById(idCarrito);
+
+        if(carrito.isEmpty()){
+            throw new Exception("Carrito no encontrado.");
+        }
 
         DetalleCarrito item = new DetalleCarrito(
                 itemDTO.idEvento(),
@@ -74,9 +77,9 @@ public class CarritoServicioImpl implements CarritoServicio {
                 itemDTO.nombreLocalidad()
         );
 
-        carrito.getItems().add(item);
+        carrito.get().getItems().add(item);
 
-        carritoRepo.save(carrito);
+        carritoRepo.save(carrito.get());
     }
 
     @Override
@@ -112,7 +115,7 @@ public class CarritoServicioImpl implements CarritoServicio {
     public Carrito obtenerCarritoUsuario(String idUsuario) throws CarritoNoEncontradoException {
         try {
 
-            Optional<Carrito> carritoBuscado = carritoRepo.findById(idUsuario);
+            Optional<Carrito> carritoBuscado = carritoRepo.findByIdUsuario( new ObjectId(idUsuario));
 
             if(carritoBuscado.isEmpty()){
                 throw new CarritoNoEncontradoException("El carrito no fue encontrado. ");

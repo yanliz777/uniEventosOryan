@@ -129,6 +129,14 @@ public class CuponServicioImpl implements CuponServicio {
             throw new Exception("El cupón ha vencido.");
         }
 
+        if(!cupon.getTipo().equals(TipoCupon.UNICO)){
+            throw new Exception("El cupón debe debe ser de un cupón individual.");
+        }
+
+        if(!cupon.getEstado().equals(EstadoCupon.DISPONIBLE)){
+            throw new Exception("El cupón ya fue redimido.");
+        }
+
         cupon.setEstado(EstadoCupon.ELIMINADO);
         cuponRepo.save(cupon);
         return true;

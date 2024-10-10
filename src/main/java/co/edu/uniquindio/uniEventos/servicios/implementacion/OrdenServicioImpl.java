@@ -63,7 +63,7 @@ public class OrdenServicioImpl implements OrdenServicio {
         Cuenta cuenta = cuentaOptional.get();
 
         // Buscar el carrito del cliente usando su ID
-        Optional<Carrito> carritoOptional = carritoRepo.findById(crearOrdenDTO.idCliente());
+        Optional<Carrito> carritoOptional = carritoRepo.findByIdUsuario(new ObjectId(crearOrdenDTO.idCliente()));
 
         if (carritoOptional.isEmpty()) {
             throw new RuntimeException("No se encontró un carrito asociado a este cliente.");
@@ -342,20 +342,20 @@ la base de datos.
     @Override
     public void recibirNotificacionMercadoPago(Map<String, Object> request) {
         try {
-// Obtener el tipo de notificación
+            // Obtener el tipo de notificación
             Object tipo = request.get("type");
-// Si la notificación es de un pago entonces obtener el pago y la orden asociada
+            // Si la notificación es de un pago entonces obtener el pago y la orden asociada
             if ("payment".equals(tipo)) {
-// Capturamos el JSON que viene en el request y lo convertimos a un String
+                // Capturamos el JSON que viene en el request y lo convertimos a un String
                 String input = request.get("data").toString();
-// Extraemos los números de la cadena, es decir, el id del pago
+                // Extraemos los números de la cadena, es decir, el id del pago
                 String idPago = input.replaceAll("\\D+", "");
-// Se crea el cliente de MercadoPago y se obtiene el pago con el id
+                // Se crea el cliente de MercadoPago y se obtiene el pago con el id
                 PaymentClient client = new PaymentClient();
                 Payment payment = client.get( Long.parseLong(idPago) );
-// Obtener el id de la orden asociada al pago que viene en los metadatos
+                // Obtener el id de la orden asociada al pago que viene en los metadatos
                 String idOrden = payment.getMetadata().get("id_orden").toString();
-// Se obtiene la orden guardada en la base de datos y se le asigna el pago
+                // Se obtiene la orden guardada en la base de datos y se le asigna el pago
                 Orden orden = obtenerOrdenPorId(idOrden);
                 Pago pago = crearPago(payment);
                 orden.setPago(pago);
@@ -377,7 +377,7 @@ la base de datos.
         }
 
         // Obtener las órdenes del usuario
-        Optional<List<Orden>> ordenes = ordenRepo.findByCodigoCliente(idUsuario);
+        Optional<List<Orden>> ordenes = ordenRepo.findByCodigoCliente(new ObjectId(idUsuario));
 
         if (ordenes.isEmpty() || ordenes.get().isEmpty()) {
             throw new HistorialOrdenesVacionException("El usuario no tiene órdenes registradas");
