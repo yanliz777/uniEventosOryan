@@ -27,7 +27,7 @@ public class Orden {
     private LocalDateTime fecha;
     private String codigoPasarela;
     private ObjectId idCupon;
-    private List<DetalleOrden> items = new ArrayList<>();;
+    private List<DetalleOrden> items;
     private float total;
     private EstadoOrden estado;
     private Pago pago;

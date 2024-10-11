@@ -14,7 +14,6 @@ import org.bson.types.ObjectId;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DetalleOrden {
-    private String id;
     private ObjectId codigoEvento;
     private float precio;
     private String nombreLocalidad;

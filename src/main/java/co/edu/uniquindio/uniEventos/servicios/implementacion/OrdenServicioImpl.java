@@ -269,7 +269,7 @@ public class OrdenServicioImpl implements OrdenServicio {
 // Recorrer los items de la orden y crea los ítems de la pasarela
         for(DetalleOrden item : ordenGuardada.getItems()){
 // Obtener el evento y la localidad del ítem
-            Evento evento = eventoServicio.obtenerEvento(item.getId().toString());
+            Evento evento = eventoServicio.obtenerEvento((item.getCodigoEvento().toString()));
             Localidad localidad = evento.obtenerLocalidad(item.getNombreLocalidad());
 // Crear el item de la pasarela
             PreferenceItemRequest itemRequest =
@@ -306,7 +306,7 @@ Tenemos que actualizar esta parte del código con la nueva URL cada vez que esto
                 .backUrls(backUrls)
                 .items(itemsPasarela)
                 .metadata(Map.of("id_orden", ordenGuardada.getId()))
-                .notificationUrl("https://fccd-191-95-149-100.ngrok-free.app/notifications")
+                .notificationUrl("https://2b18-2800-e2-7080-413-ec9a-f190-44bf-fdef.ngrok-free.app/api/cliente/orden/notificacion-pago")
                 .build();
 // Crear la preferencia en la pasarela de MercadoPago
         PreferenceClient client = new PreferenceClient();
