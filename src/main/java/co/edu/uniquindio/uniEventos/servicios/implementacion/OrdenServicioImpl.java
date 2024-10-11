@@ -306,7 +306,7 @@ Tenemos que actualizar esta parte del código con la nueva URL cada vez que esto
                 .backUrls(backUrls)
                 .items(itemsPasarela)
                 .metadata(Map.of("id_orden", ordenGuardada.getId()))
-                .notificationUrl("https://e2b5-191-95-149-100.ngrok-free.app/api/cliente/orden/notificacion-pago")
+                .notificationUrl("https://2b18-2800-e2-7080-413-ec9a-f190-44bf-fdef.ngrok-free.app/api/cliente/orden/notificacion-pago")
                 .build();
 // Crear la preferencia en la pasarela de MercadoPago
         PreferenceClient client = new PreferenceClient();
