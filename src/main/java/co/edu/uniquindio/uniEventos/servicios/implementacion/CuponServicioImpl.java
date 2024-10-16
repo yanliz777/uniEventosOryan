@@ -78,7 +78,7 @@ public class CuponServicioImpl implements CuponServicio {
     public String eliminarCupon(String id) throws CuponNoEliminadoException {
 
         try {
-            Cupon cuponEliminado = obtenerCupon( id );
+            Cupon cuponEliminado = obtenerCuponPorId( id );
 
             cuponEliminado.setEstado( EstadoCupon.ELIMINADO );
             cuponRepo.save(cuponEliminado);
