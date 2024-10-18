@@ -6,6 +6,7 @@ import co.edu.uniquindio.uniEventos.excepciones.EventoNoEditadoException;
 import co.edu.uniquindio.uniEventos.servicios.implementacion.CuponServicioImpl;
 import co.edu.uniquindio.uniEventos.servicios.interfaces.EventoServicio;
 import co.edu.uniquindio.uniEventos.servicios.interfaces.ImagenesServicio;
+import co.edu.uniquindio.uniEventos.servicios.interfaces.OrdenServicio;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +24,7 @@ import java.util.List;
 public class AdministradorControlador {
 
     private final EventoServicio eventoServicio;
+    private final OrdenServicio ordenServicio;
     private final ImagenesServicio imagenesServicio;
     private  final CuponServicioImpl cuponServicio;
 
