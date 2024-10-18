@@ -1,7 +1,10 @@
 package co.edu.uniquindio.uniEventos.test;
 
 import co.edu.uniquindio.uniEventos.dto.CrearEventoDTO;
+import co.edu.uniquindio.uniEventos.dto.InformacionEventoDTO;
 import co.edu.uniquindio.uniEventos.excepciones.EventoNoCreadoException;
+import co.edu.uniquindio.uniEventos.excepciones.EventoNoEliminadoException;
+import co.edu.uniquindio.uniEventos.excepciones.EventoNoEncontradoException;
 import co.edu.uniquindio.uniEventos.modelo.enums.EstadoEvento;
 import co.edu.uniquindio.uniEventos.modelo.enums.TipoEvento;
 import co.edu.uniquindio.uniEventos.modelo.vo.Localidad;
@@ -38,4 +41,26 @@ public class EventoServicioTest {
 
         Assertions.assertEquals("El evento ha sido creado con éxito.", respuesta);
     }
+
+    @Test
+    public void eliminarEventoTest() throws EventoNoEliminadoException, EventoNoCreadoException {
+
+        String idEvento = "670431cbc4518352e25d3de3";
+
+        String respuesta = eventoServicio.eliminarEvento(idEvento);
+
+        Assertions.assertEquals("El evento ha sido eliminado.", respuesta);
+    }
+
+    @Test
+    public void obtenerInformacionEventoTest() throws EventoNoEncontradoException {
+        String idEvento = "670431cbc4518352e25d3de3";
+
+        InformacionEventoDTO eventoInfo = eventoServicio.obtenerInformacionEvento(idEvento);
+
+        Assertions.assertNotNull(eventoInfo);
+        Assertions.assertEquals("670431cbc4518352e25d3de3", eventoInfo.id());
+    }
+
+
 }

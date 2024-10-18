@@ -54,11 +54,8 @@ bin/
 
 ##Ruta de aplication.properties:
 /src/main/resources/application.properties
+application.properties
 
 ##ruta de firebase para las imagenes en la nube
 /src/main/resources/unieventoFirebase.json
-
-
-##Ruta de aplication.properties:
-/src/main/resources/application.properties
 
