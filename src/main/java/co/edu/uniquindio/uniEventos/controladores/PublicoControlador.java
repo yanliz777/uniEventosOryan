@@ -5,11 +5,13 @@ import co.edu.uniquindio.uniEventos.dto.InformacionEventoDTO;
 import co.edu.uniquindio.uniEventos.dto.ItemEventoDTO;
 import co.edu.uniquindio.uniEventos.dto.MensajeDTO;
 import co.edu.uniquindio.uniEventos.servicios.interfaces.EventoServicio;
+import co.edu.uniquindio.uniEventos.servicios.interfaces.OrdenServicio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,6 +19,7 @@ import java.util.List;
 public class PublicoControlador {
 
     private final EventoServicio eventoServicio;
+    private final OrdenServicio ordenServicio;
 
     @PostMapping("/evento/filtrar")
     public ResponseEntity<MensajeDTO<List<ItemEventoDTO>>> filtrarEventos(@RequestBody FiltroEventoDTO filtroEventoDTO) {
@@ -35,4 +38,11 @@ public class PublicoControlador {
         return ResponseEntity.ok().body(new MensajeDTO<>(false,
                 eventoServicio.listarEventosPaginados(pagina, tamano)));
     }
+
+
+    @PostMapping("/orden/notificacion-pago")
+    public void recibirNotificacionMercadoPago(@RequestBody Map<String, Object> requestBody) {
+        ordenServicio.recibirNotificacionMercadoPago(requestBody);
+    }
+
 }
