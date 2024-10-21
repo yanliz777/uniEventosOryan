@@ -60,7 +60,7 @@ public class CuponServicioImpl implements CuponServicio {
     public Cupon editarCupon(EditarCuponDTO cupon) throws CuponNoActualizadoException {
 
         try {
-            Cupon cuponActualizar = obtenerCupon( cupon.id() );
+            Cupon cuponActualizar = obtenerCuponPorId( cupon.id() );
 
             cuponActualizar.setNombre( cupon.nombre() );
             cuponActualizar.setDescuento( cupon.descuento() );
@@ -78,7 +78,7 @@ public class CuponServicioImpl implements CuponServicio {
     public String eliminarCupon(String id) throws CuponNoEliminadoException {
 
         try {
-            Cupon cuponEliminado = obtenerCupon( id );
+            Cupon cuponEliminado = obtenerCuponPorId( id );
 
             cuponEliminado.setEstado( EstadoCupon.ELIMINADO );
             cuponRepo.save(cuponEliminado);
@@ -93,7 +93,7 @@ public class CuponServicioImpl implements CuponServicio {
     @Transactional(readOnly = true)
     public InformacionCuponDTO obtenerInformacionCupon(String id) throws CuponNoEncontradoException {
         try {
-            Cupon cupon = obtenerCupon(id);
+            Cupon cupon = obtenerCuponPorId(id);
             return new InformacionCuponDTO(
                     cupon.getNombre(),
                     cupon.getDescuento(),
@@ -208,6 +208,15 @@ public class CuponServicioImpl implements CuponServicio {
         Optional<Cupon> cupon = cuponRepo.findByCodigo( codigo );
         if( cupon.isEmpty() ){
             throw new CuponNoEncontradoException("El cupón con el codigo "+ codigo + " no fue encontrado");
+        }
+
+        return cupon.get();
+    }
+
+    public Cupon obtenerCuponPorId( String id ) throws CuponNoEncontradoException {
+        Optional<Cupon> cupon = cuponRepo.findById( id );
+        if( cupon.isEmpty() ){
+            throw new CuponNoEncontradoException("El cupón con el codigo "+ id + " no fue encontrado");
         }
 
         return cupon.get();

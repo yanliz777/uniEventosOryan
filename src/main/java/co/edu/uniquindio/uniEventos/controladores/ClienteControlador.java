@@ -125,11 +125,6 @@ public class ClienteControlador {
         return ResponseEntity.ok(new MensajeDTO<>(false, "Item eliminado correctamente"));
     }
 
-    @PostMapping("/orden/notificacion-pago")
-    public void recibirNotificacionMercadoPago(@RequestBody Map<String, Object> requestBody) {
-        ordenServicio.recibirNotificacionMercadoPago(requestBody);
-    }
-
     @PostMapping("/cupon/redimir")
     public ResponseEntity<MensajeDTO<String>> redimirCupon(@RequestParam String codigo) throws Exception {
         boolean resultado = cuponServicio.redimirCupon(codigo);

@@ -255,10 +255,11 @@ public class CuentaServicioImpl implements CuentaServicio {
                     LocalDateTime.now()
             ));
 
-            cuentaRepo.save(cuenta);
 
-            //toca enviar un email al usuario con el codigo de validación
-            emailService.enviarCorreo( new EmailDTO(correo, "Asunto mensaje", "Hola") );
+            String body = PlantillasEmailConfig.bodyActualizarPassword.replace("[Codigo_Activacion]", codigoValidacion);
+
+            emailService.enviarCorreo( new EmailDTO("Cambio de contraseña", body, correo) );
+            cuentaRepo.save(cuenta);
 
             return "Se ha enviado un correo con el código de validación";
 

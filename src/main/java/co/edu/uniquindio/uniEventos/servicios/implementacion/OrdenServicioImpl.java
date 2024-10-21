@@ -28,6 +28,7 @@ import com.mercadopago.resources.payment.Payment;
 import com.mercadopago.resources.preference.Preference;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -40,6 +41,12 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class OrdenServicioImpl implements OrdenServicio {
+
+    @Value("${mercadopago.access.token}")
+    private String accessToken;
+
+    @Value("${ngrok.notificacion}")
+    private String notificacionUrl;
 
     private final OrdenRepo ordenRepo;
     private final EventoRepo eventoRepo;
@@ -286,7 +293,7 @@ public class OrdenServicioImpl implements OrdenServicio {
             itemsPasarela.add(itemRequest);
         }
 // Configurar las credenciales de MercadoPago
-        MercadoPagoConfig.setAccessToken("ACCESS_TOKEN");
+        MercadoPagoConfig.setAccessToken(accessToken);
 // Configurar las urls de retorno de la pasarela (Frontend)
         PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
                 .success("URL PAGO EXITOSO")
@@ -306,7 +313,7 @@ Tenemos que actualizar esta parte del código con la nueva URL cada vez que esto
                 .backUrls(backUrls)
                 .items(itemsPasarela)
                 .metadata(Map.of("id_orden", ordenGuardada.getId()))
-                .notificationUrl("https://e2b5-191-95-149-100.ngrok-free.app/api/cliente/orden/notificacion-pago")
+                .notificationUrl(notificacionUrl)
                 .build();
 // Crear la preferencia en la pasarela de MercadoPago
         PreferenceClient client = new PreferenceClient();
